@@ -1,0 +1,69 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 292ebbdc763f33d409d73068d8f862a6, type: 3}
+  m_Name: GrassTile
+  m_EditorClassIdentifier: 
+  m_Sprite: {fileID: 21300000, guid: f74df225ce33614439cc8741c8f67027, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Transform:
+    e00: 1
+    e01: 0
+    e02: 0
+    e03: 0
+    e10: 0
+    e11: 1
+    e12: 0
+    e13: 0
+    e20: 0
+    e21: 0
+    e22: 1
+    e23: 0
+    e30: 0
+    e31: 0
+    e32: 0
+    e33: 1
+  m_InstancedGameObject: {fileID: 0}
+  m_Flags: 1
+  m_ColliderType: 1
+  grasssprites:
+  - {fileID: 21300000, guid: 23f4a0b03c19a5b459a894e24ef21683, type: 3}
+  - {fileID: 21300000, guid: d7a7e1b5aa2e0ae4bbd9482f8309ee2b, type: 3}
+  - {fileID: 21300000, guid: 37bba803688a9fd4ab2fefe71f54cc6e, type: 3}
+  - {fileID: 21300000, guid: 0e713fa8b73048f4496e536ab9195eff, type: 3}
+  - {fileID: 21300000, guid: 9d181b64d7eb90a4a81f023d821d58c1, type: 3}
+  - {fileID: 21300000, guid: bdc3155c92c0b51489a76c3d54d33394, type: 3}
+  - {fileID: 21300000, guid: 34458f8d1e9999045b5eb1376de9ab92, type: 3}
+  - {fileID: 21300000, guid: fef040795143a754481cda462fe6d28c, type: 3}
+  - {fileID: 21300000, guid: 0fec950f227759e4cb727548b7d518e3, type: 3}
+  preview: {fileID: 21300000, guid: f74df225ce33614439cc8741c8f67027, type: 3}
+  sprite: {fileID: 21300000, guid: f74df225ce33614439cc8741c8f67027, type: 3}
+  color: {r: 1, g: 1, b: 1, a: 1}
+  transform:
+    e00: 1
+    e01: 0
+    e02: 0
+    e03: 0
+    e10: 0
+    e11: 1
+    e12: 0
+    e13: 0
+    e20: 0
+    e21: 0
+    e22: 1
+    e23: 0
+    e30: 0
+    e31: 0
+    e32: 0
+    e33: 1
+  gameobject: {fileID: 0}
+  flags: 1
+  collidertype: 1
+  obstacle: 0
