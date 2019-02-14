@@ -466,6 +466,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pf: {fileID: 0}
+  playerinfo: {fileID: 11400000, guid: 2b5996bd8283da84cbc914579f9a60b8, type: 2}
 --- !u!1 &802196133
 GameObject:
   m_ObjectHideFlags: 0
@@ -840,7 +841,7 @@ MonoBehaviour:
   click: 0
   clicked: {fileID: 0}
   Canvas: {fileID: 9117218}
-  GraphicsRaycaster: {fileID: 0}
+  GraphicsRaycaster: {fileID: 9117219}
   eventsystem: {fileID: 1329351213}
 --- !u!4 &2072119991
 Transform:

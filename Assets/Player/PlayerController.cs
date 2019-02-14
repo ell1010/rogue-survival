@@ -1,16 +1,22 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Tilemaps;
+using UnityEditor;
 
 public class PlayerController : MonoBehaviour 
 {
 	public List<Pathfinding.node> currentpath = null;
 	public Pathfinding pf;
 	int movespeed = 2;
-	// Use this for initialization
-	void Start () {
+    public Playerinformation playerinfo;
 
+    private void Awake()
+    {
+        gameObject.name = playerinfo.PlayerName;
+    }
+
+    void Start ()
+    {
 
 	}
 	
@@ -22,9 +28,9 @@ public class PlayerController : MonoBehaviour
 			int currnode = 0;
 			while (currnode < currentpath.Count - 1) 
 			{
-				Vector3 start = new Vector3(currentpath[currnode].x,currentpath[currnode].y);
-				Vector3 end =new Vector3(currentpath[currnode+1].x,currentpath[currnode+1].y);
-				Debug.DrawLine (start, end);	
+				Vector3 start = new Vector3(currentpath[currnode].x + 0.5f,currentpath[currnode].y + 0.5f);
+				Vector3 end =new Vector3(currentpath[currnode+1].x + 0.5f,currentpath[currnode+1].y + 0.5f);
+				Debug.DrawLine (start, end,Color.blue);	
 				currnode++;
 			}
 		}

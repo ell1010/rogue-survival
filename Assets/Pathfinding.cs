@@ -23,7 +23,7 @@ public class Pathfinding : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		//print (settingsmanager.instance);
-		if(settingsmanager.instance.leftmouseclick() && settingsmanager.instance.clicked == tilemap.gameObject )
+		if(settingsmanager.instance.LeftMouseClick() && settingsmanager.instance.clicked == tilemap.gameObject )
 		{
             //get the tile that was clicked
 			Vector3 mouseworldpos = Camera.main.ScreenToWorldPoint (Input.mousePosition);
@@ -55,8 +55,8 @@ public class Pathfinding : MonoBehaviour {
 				nodegraph [x, y] = new node ();
 				nodegraph [x, y].x = x - (Mathf.Abs (startpos.x));
 				nodegraph [x, y].y = y - (Mathf.Abs (startpos.y));
-				//GameObject newnode = GameObject.Instantiate (gnode, new Vector3 (nodegraph [x, y].x, nodegraph [x, y].y, -1), Quaternion.identity);
-				//newnode.name = (nodegraph [x, y].x.ToString () + nodegraph [x, y].y.ToString ());
+				GameObject newnode = GameObject.Instantiate (gnode, new Vector3 (nodegraph [x, y].x, nodegraph [x, y].y, -1), Quaternion.identity);
+				newnode.name = (nodegraph [x, y].x.ToString () + nodegraph [x, y].y.ToString ());
 				
 
 			}
@@ -127,14 +127,14 @@ public class Pathfinding : MonoBehaviour {
 		prev [source] = null;
 
 		//sets up each node in dist or have infinite distance cause not all nodes will be reachable and null every node in prev
-		foreach (node g in nodegraph) 
+		foreach (node n in nodegraph) 
 		{				
-			if (g != source) 
+			if (n != source) 
 			{
-				dist [g] = Mathf.Infinity;
-				prev [g] = null;
+				dist [n] = Mathf.Infinity;
+				prev [n] = null;
 			}
-			unvisited.Add (g);
+			unvisited.Add (n);
 		}
 		//checks each node in unvisited and checks the distance and generates the shortest distance/cost path
 		while (unvisited.Count > 0) 

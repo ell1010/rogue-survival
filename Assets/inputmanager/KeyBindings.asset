@@ -17,7 +17,7 @@ MonoBehaviour:
   - keyAction: 1
     keyCode: 32
   - keyAction: 2
-    keyCode: 0
+    keyCode: 43
   - keyAction: 3
     keyCode: 0
   - keyAction: 4
