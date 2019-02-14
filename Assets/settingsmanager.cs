@@ -59,28 +59,33 @@ public class settingsmanager : MonoBehaviour {
 		if (leftmouseclick()) 
 		{
 			print ("click");
+
 			pointerevent = new PointerEventData (eventsystem);
 			pointerevent.position = Input.mousePosition;
 			List<RaycastResult> results = new List<RaycastResult> ();
-			Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-			RaycastHit2D hit = Physics2D.Raycast(ray.origin,ray.direction);
-			//GraphicsRaycaster.Raycast
-			if (hit.transform != null) 
-			{
-				print ("clicked" + hit);
-				clicked = hit.transform.gameObject;
-			} 
-			else if(hit.transform == null)
-			{
-				GraphicsRaycaster.Raycast (pointerevent, results);
-				if (results.Count > 0) 
-				{
-					clicked = results [0].gameObject;
-				}
-			}else
-			{
-				clicked = null;
-			}
+
+
+            GraphicsRaycaster.Raycast(pointerevent, results);
+            if (results.Count > 0)
+            {
+                clicked = results[0].gameObject;
+            }
+            else if (results.Count == 0)
+            {
+
+                Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+                RaycastHit2D hit = Physics2D.Raycast(ray.origin, ray.direction);
+                if (hit.transform != null)
+                {
+                    print("clicked" + hit);
+                    clicked = hit.transform.gameObject;
+                }
+            }
+            else
+            {
+                clicked = null;
+            }
+			
 		}
 
 	}
