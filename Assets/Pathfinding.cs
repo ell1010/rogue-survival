@@ -112,6 +112,7 @@ public class Pathfinding : MonoBehaviour {
 		// sets the source and target nodes for the player (start and end points)
 		node source = nodegraph [playerposx,playerposy];
 		node target = nodegraph [x, y];
+        print("targetx" + target.x + " targety" + target.y);
 
 		// sets the distance to source node to 0 and nulls it out from the dictionarys
 		dist [source] = 0;
