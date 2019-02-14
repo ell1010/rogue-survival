@@ -25,8 +25,10 @@ public class Pathfinding : MonoBehaviour {
 		//print (settingsmanager.instance);
 		if(settingsmanager.instance.leftmouseclick() && settingsmanager.instance.clicked == tilemap.gameObject )
 		{
+            //get the tile that was clicked
 			Vector3 mouseworldpos = Camera.main.ScreenToWorldPoint (Input.mousePosition);
 			Vector3Int coord = tilemap.WorldToCell (mouseworldpos);
+            // call pathfinding funftion
 			genpathto (
 				((int)Math.Floor(tilemap.GetCellCenterWorld (coord).x) + Mathf.Abs(tilemap.origin.x)) , 
 				((int)Math.Floor(tilemap.GetCellCenterWorld(coord).y) + Mathf.Abs(tilemap.origin.y))
@@ -36,6 +38,7 @@ public class Pathfinding : MonoBehaviour {
 
 	public void createnodes()
 	{
+
 		Vector3Int startpos = tilemap.origin;
 		Vector3Int size = tilemap.size;
 
@@ -52,8 +55,8 @@ public class Pathfinding : MonoBehaviour {
 				nodegraph [x, y] = new node ();
 				nodegraph [x, y].x = x - (Mathf.Abs (startpos.x));
 				nodegraph [x, y].y = y - (Mathf.Abs (startpos.y));
-				GameObject newnode = GameObject.Instantiate (gnode, new Vector3 (nodegraph [x, y].x, nodegraph [x, y].y, -1), Quaternion.identity);
-				newnode.name = (nodegraph [x, y].x.ToString () + nodegraph [x, y].y.ToString ());
+				//GameObject newnode = GameObject.Instantiate (gnode, new Vector3 (nodegraph [x, y].x, nodegraph [x, y].y, -1), Quaternion.identity);
+				//newnode.name = (nodegraph [x, y].x.ToString () + nodegraph [x, y].y.ToString ());
 				
 
 			}
@@ -63,20 +66,25 @@ public class Pathfinding : MonoBehaviour {
 		{
 			for (int y = 0; y <= endpoint.y; y++) 
 			{
+                //adds neighbours
 				if (nodegraph [x, y].walkable(tilemap,new Vector3Int(nodegraph [x, y].x,nodegraph [x, y].y,0))) {
 					if ((x + startpos.x) > startpos.x) {
+                        //check left
 						if (nodegraph [x-1, y].walkable(tilemap,new Vector3Int(nodegraph [x-1, y].x,nodegraph [x-1, y].y,0))) 
 						nodegraph [x, y].neighbours.Add (nodegraph [x - 1, y]);
 					}
 					if ((x + startpos.x) < (endpoint.x + startpos.x)) {
+                        //check right
 						if (nodegraph [x+1, y].walkable(tilemap,new Vector3Int(nodegraph [x+1, y].x,nodegraph [x+1, y].y,0))) 
 						nodegraph [x, y].neighbours.Add (nodegraph [x + 1, y]);
 					}
 					if ((y + startpos.y) > startpos.y) {
+                        //check down
 						if (nodegraph [x, y-1].walkable(tilemap,new Vector3Int(nodegraph [x, y-1].x,nodegraph [x, y-1].y,0))) 
 						nodegraph [x, y].neighbours.Add (nodegraph [x, y - 1]);
 					}
 					if ((y + startpos.y) < (endpoint.y + startpos.y)) {
+                        //check up
 						if (nodegraph [x, y+1].walkable(tilemap,new Vector3Int(nodegraph [x, y+1].x,nodegraph [x, y+1].y,0))) 
 						nodegraph [x, y].neighbours.Add (nodegraph [x, y + 1]);
 					}
@@ -112,6 +120,7 @@ public class Pathfinding : MonoBehaviour {
 		// sets the source and target nodes for the player (start and end points)
 		node source = nodegraph [playerposx,playerposy];
 		node target = nodegraph [x, y];
+        //print("targetx" + target.x + " targety" + target.y);
 
 		// sets the distance to source node to 0 and nulls it out from the dictionarys
 		dist [source] = 0;
