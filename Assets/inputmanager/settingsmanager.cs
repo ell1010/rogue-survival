@@ -49,6 +49,10 @@ public class settingsmanager : MonoBehaviour {
 	{
 		return Input.GetKeyDown(keybinds.keybinds [(int)KeybindActions.up].keyCode);
 	}
+	public bool DownPressed()
+	{
+		return Input.GetKeyDown (keybinds.keybinds [(int)KeybindActions.down].keyCode);
+	}
 	void Update ()
     {
 		//click = Input.GetMouseButtonDown (int.Parse (keys ["select"].ToString ().Substring (5)));

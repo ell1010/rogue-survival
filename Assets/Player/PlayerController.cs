@@ -53,5 +53,9 @@ public class PlayerController : MonoBehaviour
 				currentpath = null;
 		}
 	}
+	public void playerpickup()
+	{
+		
+	}
 }
 
