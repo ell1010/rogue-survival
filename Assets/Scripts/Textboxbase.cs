@@ -2,27 +2,33 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using System.Text.RegularExpressions;
 
 public class Textboxbase : MonoBehaviour {
 	string tbcontent;
+	public string[] tbcsplit;
 	public GameObject textbox;
-	bool trigger = false;
 	GameObject tb;
-	Text tbtext;
-	bool istyping;
-	bool canceltyping = false;
+	public Text tbtext;
+	public bool istyping;
+	public bool canceltyping = false;
 	bool key;
 	bool keyt;
 	public bool finishedtyping = false;
     bool skip;
+	int maxcharacterlimit = 53;
+	public int page = 0;
 
 	// Use this for initialization
-	void Start () {
-		tbcontent = "This is a text box that has a lot of text ot give me time to test different things while the text is typing";
+	public virtual void Start () {
+		tbcontent = "This is a text box that has a lot of text to give me time to test different things while the text is typing";
         tbtext = this.gameObject.transform.GetChild(0).gameObject.GetComponent<Text>();
-        starttext();
+		tbcontent = SplitToLines (tbcontent, maxcharacterlimit);
+		tbcsplit = tbcontent.Split (new [] { '\r', '\n' }, System.StringSplitOptions.RemoveEmptyEntries);
+		print (tbcsplit.Length);
+		StartCoroutine (typewriter (tbcsplit [page]));
+		//starttext(tbcsplit[page]);
     }
-
 	
 	// Update is called once per frame
 	void Update () 
@@ -31,79 +37,41 @@ public class Textboxbase : MonoBehaviour {
 	}
 	void starttext()
 	{
-        StartCoroutine(typewriter());
 
-
-		//if (settingsmanager.instance.DownPressed()) 
-		//{
-		//	if (!key && trigger) 
-		//	{
-		//		print ("true");
-		//		key = true;
-		//		keyt = true;
-		//	}
-		//}
-		//if(!settingsmanager.instance.DownPressed())
-		//{
-		//	key = false;
-		//}
-		//if (keyt) {
-		//	if (!textbox.activeInHierarchy)
-		//	{
-		//		textbox.SetActive (true);
-		//	} else if (textbox.activeInHierarchy) 
-		//	{
-		//		if (!istyping && !finishedtyping) {
-		//			StartCoroutine (typewriter ());
-		//			istyping = true;
-		//			keyt = false;
-		//		} else if (istyping && !canceltyping) 
-		//		{
-		//			canceltyping = true;
-		//			print ("stop");
-		//			keyt = false;
-		//		}
-		//		if (finishedtyping) 
-		//		{
-		//			textbox.SetActive (false);
-		//			StopCoroutine (typewriter ());
-		//			tbtext.text = "";
-		//			keyt = false;
-		//			finishedtyping = false;
-		//		}
-		//	}
-		//}
-		//if (!trigger) 
-		//{
-		//	textbox.SetActive (false);
-		//	StopCoroutine (typewriter ());
-		//	tbtext.text = "";
-		//}
 	}
-    public void skiptext()
+    public virtual void skiptext()
     {
-        if (istyping)
-            canceltyping = true;
+		if (istyping)
+			canceltyping = true;
+		else if (!istyping && page < tbcsplit.Length - 1) 
+		{
+			page++;
+			StartCoroutine (typewriter (tbcsplit [page]));
+		}
         else
-        {
+		{
+			print ("hello");
             tbtext.text = "";
             gameObject.SetActive(false);
         }
 
     }
-	public IEnumerator typewriter()
+	public string SplitToLines(string stringToSplit, int maximumLineLength)
+	{
+		return Regex.Replace(stringToSplit, @"(.{1," + maximumLineLength +@"})(?:\s|$)", "$1\n");
+	}
+	public IEnumerator typewriter(string pagetext)
 	{
 		int letter = 0;
 		tbtext.text = "";
 		istyping = true;
 		canceltyping = false;
-		while (istyping && !canceltyping && (letter < tbcontent.Length - 1)) 
-		{
-			tbtext.text += tbcontent [letter];
+		while (istyping && !canceltyping && (letter < pagetext.Length - 1)) {
+			tbtext.text += pagetext [letter];
 			letter += 1;
 			yield return new WaitForSeconds (0.02f);
 		}
-		tbtext.text = tbcontent;
+		tbtext.text = pagetext;
 		finishedtyping = true;
 		istyping = false;
 		canceltyping = false;

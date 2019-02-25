@@ -9,6 +9,9 @@ public class PlayerController : MonoBehaviour
 	public Pathfinding pf;
 	int movespeed = 2;
     public Playerinformation playerinfo;
+	public GameObject UI;
+	bool movingPaused;
+	public GameObject itemAtFeet;
 
     private void Awake()
     {
@@ -35,27 +38,50 @@ public class PlayerController : MonoBehaviour
 			}
 		}
 	}
-	public void movetotile()
+	public void moveplayer()
+	{
+		StartCoroutine (movetotile ());
+	}
+	public IEnumerator movetotile()
 	{
 		float remainingmovement = movespeed;
 
 		while (remainingmovement > 0) {
+			while (movingPaused)
+				yield return null;
 			if (currentpath == null)
-				return;
+				yield break;
 			
 			remainingmovement -= pf.costtotile(currentpath[0].x,currentpath[0].y,currentpath[1].x,currentpath[1].y);
 
 			transform.position = new Vector3 (currentpath [1].x, currentpath [1].y, 0);
 
 			currentpath.RemoveAt (0);
+			print ("move");
 
 			if (currentpath.Count == 1)
 				currentpath = null;
+			yield return new WaitForSeconds (0.02f);
 		}
+		yield break;
 	}
 	public void playerpickup()
 	{
-		
+		UI.transform.GetChild (1).gameObject.SetActive (true);
+		movingPaused = true;
+	}
+	public void playergetitem()
+	{
+		movingPaused = false;
+		Destroy (itemAtFeet);
+	}
+	void playerignoreitem()
+	{
+		movingPaused = false;
+	}
+	void OnTriggerEnter2D(Collider2D col)
+	{
+		print ("hello");
 	}
 }
 
