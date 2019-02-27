@@ -10,7 +10,18 @@ public class ItemTextbox : Textboxbase {
 	public override void Start () {
 		base.Start ();
 	}
-	
+	/// <summary>
+	/// Update is called every frame, if the MonoBehaviour is enabled.
+	/// </summary>
+	void Update()
+	{
+		if(finishedtyping && page == tbcsplit.Length-1)
+		{
+			showbuttons();
+			finishedtyping = false;
+		}
+	}
+
 	public void showbuttons()
 	{
 		skipbutton.SetActive (false);
@@ -32,10 +43,12 @@ public class ItemTextbox : Textboxbase {
 	}
 	public void yesbutton()
 	{
-
+		GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>().playergetitem();
+		base.skiptext();
 	}
 	public void nobutton()
 	{
-		
+		GameObject.FindGameObjectWithTag("player").GetComponent<PlayerController>().playerignoreitem();
+		base.skiptext();
 	}
 }

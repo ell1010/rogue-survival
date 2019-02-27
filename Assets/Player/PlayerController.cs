@@ -11,13 +11,13 @@ public class PlayerController : MonoBehaviour
     public Playerinformation playerinfo;
 	public GameObject UI;
 	bool movingPaused;
-	public GameObject itemAtFeet;
+	public Item itemAtFeet;
+	GameObject tempitem;
 
     private void Awake()
     {
-        gameObject.name = playerinfo.PlayerName;
+        //gameObject.name = playerinfo.PlayerName;
     }
-
     void Start ()
     {
 
@@ -65,17 +65,26 @@ public class PlayerController : MonoBehaviour
 		}
 		yield break;
 	}
-	public void playerpickup()
+	public void playerpickup(Item pickup, GameObject toucheditem)
 	{
+		itemAtFeet = pickup;
+		tempitem = toucheditem;
 		UI.transform.GetChild (1).gameObject.SetActive (true);
 		movingPaused = true;
 	}
 	public void playergetitem()
 	{
 		movingPaused = false;
-		Destroy (itemAtFeet);
+		bool pickedUp = PlayerInventory.instance.Add(itemAtFeet);
+		if (pickedUp)
+			Destroy(tempitem);
+		else
+		{
+			string test = "Inventory full!";
+			UI.transform.GetChild(2).GetComponent<basictextbox>().starttext(test);
+		}
 	}
-	void playerignoreitem()
+	public void playerignoreitem()
 	{
 		movingPaused = false;
 	}

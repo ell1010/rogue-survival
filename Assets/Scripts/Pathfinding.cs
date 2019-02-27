@@ -20,6 +20,7 @@ public class Pathfinding : MonoBehaviour {
 		createnodes ();
 	}
 	
+	
 	// Update is called once per frame
 	void Update () {
 		//print (settingsmanager.instance);

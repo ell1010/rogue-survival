@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class ItemBase : MonoBehaviour {
-
+	public Item item;
 	// Use this for initialization
 	void Start () {
 		
@@ -13,8 +13,9 @@ public class ItemBase : MonoBehaviour {
 	void Update () {
 		
 	}
+	
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        collision.gameObject.GetComponent<PlayerController>().playerpickup();
+        collision.gameObject.GetComponent<PlayerController>().playerpickup(item, this.gameObject);
     }
 }

@@ -17,7 +17,7 @@ public class hpitem : ItemBase {
 	{
 		if (collision.tag == "Player") {
 			print (collision.gameObject);
-			collision.gameObject.GetComponent<PlayerController> ().playerpickup ();
+			collision.gameObject.GetComponent<PlayerController> ().playerpickup (item, this.gameObject);
 			//Destroy (this);
 		}
 	}

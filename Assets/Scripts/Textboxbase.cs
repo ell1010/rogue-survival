@@ -21,23 +21,35 @@ public class Textboxbase : MonoBehaviour {
 
 	// Use this for initialization
 	public virtual void Start () {
-		tbcontent = "This is a text box that has a lot of text to give me time to test different things while the text is typing";
+		if (string.IsNullOrEmpty(tbcontent))
+		{
+			print("empty string");
+			tbcontent = "This is a text box that has a lot of text to give me time to test different things while the text is typing";
+		}
         tbtext = this.gameObject.transform.GetChild(0).gameObject.GetComponent<Text>();
 		tbcontent = SplitToLines (tbcontent, maxcharacterlimit);
 		tbcsplit = tbcontent.Split (new [] { '\r', '\n' }, System.StringSplitOptions.RemoveEmptyEntries);
-		print (tbcsplit.Length);
 		StartCoroutine (typewriter (tbcsplit [page]));
-		//starttext(tbcsplit[page]);
     }
+	void startTextBox()
+	{
+
+	}
 	
 	// Update is called once per frame
 	void Update () 
 	{
-
+		if(finishedtyping)
+		{
+			print("true");
+		}
 	}
-	void starttext()
-	{
 
+	public void starttext(string text)
+	{
+		tbcontent = text;
+		print(text);
+		this.gameObject.SetActive(true);
 	}
     public virtual void skiptext()
     {

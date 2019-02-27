@@ -23,4 +23,5 @@ public class Playerinformation : ScriptableObject {
 	void Update () {
 		
 	}
+    
 }
