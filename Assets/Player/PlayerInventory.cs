@@ -14,26 +14,26 @@ public class PlayerInventory : MonoBehaviour {
 		instance = this;
 	}
 	#endregion
-	public List<Item> items = new List<Item>();
+    public List<InvItems> invItems = new List<InvItems>();
 	public delegate void OnItemChanged();
 	public OnItemChanged onItemChangedCallback;
 	public int space = 20;
 	public bool Add(Item item)
 	{
-		if (items.Count >= space)
+		if (invItems.Count >= space)
 		{
 			Debug.Log("not enough room");
 			return false;
 		}
-		items.Add(item);
+		invItems.Add(new InvItems {amount = 1, Item = item });
 		if(onItemChangedCallback != null)
 			onItemChangedCallback.Invoke();
 		return true;
 	}
 	public void Remove(Item item)
 	{
-
-		items.Remove(item);
+		int index = invItems.IndexOf(item);
+		invItems.Remove(new InvItems { amount = 1, Item = item });
 		if (onItemChangedCallback != null)
 			onItemChangedCallback.Invoke();
 	}
@@ -46,4 +46,11 @@ public class PlayerInventory : MonoBehaviour {
 	void Update () {
 		
 	}
+
+    public class InvItems
+    {
+
+		public int amount;
+		public Item Item;
+    }
 }

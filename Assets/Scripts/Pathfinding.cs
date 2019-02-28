@@ -11,7 +11,7 @@ public class Pathfinding : MonoBehaviour {
 	node[,] nodegraph;
 	GameObject player;
 	public GameObject gnode;
-	settingsmanager sm = settingsmanager.instance;
+	//settingsmanager sm = settingsmanager.instance;
 	// Use this for initialization
 	void Start () {
 		player = GameObject.FindGameObjectWithTag("Player");
