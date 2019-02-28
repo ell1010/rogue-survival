@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public class PlayerInventory : MonoBehaviour {
 	#region Singleton
@@ -30,12 +31,27 @@ public class PlayerInventory : MonoBehaviour {
 			onItemChangedCallback.Invoke();
 		return true;
 	}
-	public void Remove(Item item)
+	public void Remove(Item Iitem)
 	{
-		int index = invItems.IndexOf(item);
-		invItems.Remove(new InvItems { amount = 1, Item = item });
+		//item = invItems.FindIndex(i => i.Contains == item);
+		//string index = invItems.First(s => s.Item == item));
+		//print(index);
+		int index = invItems.Select((item , i) => new { Item = item , Index = i }).First(x => x.Item.Item == Iitem).Index;
+		print(index);
+		int test = invItems.First(x => x.Item == Iitem).Index;
+		if (invItems[index].amount > 1)
+			invItems[index].amount--;
+		else if (invItems[index].amount == 1)
+			invItems.Remove(invItems[index]);
 		if (onItemChangedCallback != null)
 			onItemChangedCallback.Invoke();
+	}
+	bool finditem(InvItems ii, Item item)
+	{
+		if (ii.Item == item)
+			return true;
+		else
+			return false;
 	}
 	// Use this for initialization
 	void Start () {
@@ -46,8 +62,8 @@ public class PlayerInventory : MonoBehaviour {
 	void Update () {
 		
 	}
-
-    public class InvItems
+	[System.Serializable]
+    public class InvItems //: IEquatable<InvItems>
     {
 
 		public int amount;
