@@ -6,5 +6,6 @@
 	left,
 	down,
 	right,
-	pause
+	pause,
+	attack
 }

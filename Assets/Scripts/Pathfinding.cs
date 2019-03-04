@@ -6,25 +6,36 @@ using System.Linq;
 using System;
 
 public class Pathfinding : MonoBehaviour {
+	#region Singleton
+	public static Pathfinding instance;
+	private void Awake()
+	{
+		if (instance != null)
+		{
+			Debug.LogWarning("DUPLICATE PATHFINDING");
+		}
+		instance = this;
+	}
+	#endregion
 	public Tilemap tilemap;
 	public Grid tgrid;
 	node[,] nodegraph;
 	GameObject player;
+	List<node> currentPath = new List<node>();
 	public GameObject gnode;
-	//settingsmanager sm = settingsmanager.instance;
-	// Use this for initialization
+	public LineRenderer line;
+	public Vector3[] points;
+
 	void Start () {
 		player = GameObject.FindGameObjectWithTag("Player");
 		player.GetComponent<PlayerController> ().pf = this;
 		tilemap = GetComponent<Tilemap> ();
+		line = GetComponent<LineRenderer>();
 		createnodes ();
 	}
 	
-	
-	// Update is called once per frame
 	void Update () {
-		//print (settingsmanager.instance);
-		if(settingsmanager.instance.LeftMouseClick() && settingsmanager.instance.clicked == tilemap.gameObject )
+		if(settingsmanager.instance.LeftMouseClickDown() && settingsmanager.instance.clicked == tilemap.gameObject )
 		{
             //get the tile that was clicked
 			Vector3 mouseworldpos = Camera.main.ScreenToWorldPoint (Input.mousePosition);
@@ -34,6 +45,10 @@ public class Pathfinding : MonoBehaviour {
 				((int)Math.Floor(tilemap.GetCellCenterWorld (coord).x) + Mathf.Abs(tilemap.origin.x)) , 
 				((int)Math.Floor(tilemap.GetCellCenterWorld(coord).y) + Mathf.Abs(tilemap.origin.y))
 			);
+		}
+		if (settingsmanager.instance.LeftMouseClickUp())
+		{
+			setPath();
 		}
 	}
 
@@ -103,6 +118,7 @@ public class Pathfinding : MonoBehaviour {
 	void genpathto(int x, int y)
 	{
 		//gets the players current path and nulls it out
+		currentPath = new List<node>();
 		player.GetComponent<PlayerController> ().currentpath = null;
 		// creates 2 dictionarys, one for calculating shorted distance, one for all previous shortest nodes (path in reverse)
 		Dictionary<node,float> dist = new Dictionary<node, float>();
@@ -162,7 +178,6 @@ public class Pathfinding : MonoBehaviour {
 		//breaks if there isnt a path
 		if (prev [target] == null) 
 			return;
-		List<node> currentPath = new List<node> ();
 		node curr = target;
 
 		//go through prev adding each one to the current path
@@ -176,9 +191,37 @@ public class Pathfinding : MonoBehaviour {
 			print ("null node");
 		//reverses current path to get correct order
 		currentPath.Reverse ();
-		player.GetComponent<PlayerController> ().currentpath = currentPath;
+		linerenderer();
+	}
+	void setPath()
+	{
+		player.GetComponent<PlayerController>().currentpath = currentPath;
 	}
 
+	public void linerenderer()
+	{
+		line.positionCount = 0;
+		line.material = new Material(Shader.Find("Sprites/Default"));
+		line.startWidth = 0.05f;
+		line.endWidth = 0.05f;
+		line.startColor = Color.blue;
+		line.endColor = Color.blue;
+		line.positionCount = currentPath.Count;
+		points = new Vector3[currentPath.Count];
+		for (int i = 0; i < currentPath.Count; i++)
+		{
+			points[i] = new Vector3(currentPath[i].x + 0.5f , currentPath[i].y + 0.5f , -0.1f);
+		}
+		points = points.Reverse().ToArray();
+		line.SetPositions(points);
+		line.alignment = LineAlignment.View;
+	}
+
+	public void RemoveLinePosition()
+	{
+		line.positionCount = currentPath.Count;
+		print("hello");
+	}
 
 	public	class node 
 	{

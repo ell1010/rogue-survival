@@ -19,26 +19,27 @@ public class PlayerInventory : MonoBehaviour {
 	public delegate void OnItemChanged();
 	public OnItemChanged onItemChangedCallback;
 	public int space = 20;
-	public bool Add(Item item)
+	public bool Add(Item Iitem)
 	{
 		if (invItems.Count >= space)
 		{
 			Debug.Log("not enough room");
 			return false;
 		}
-		invItems.Add(new InvItems {amount = 1, Item = item });
+		// more compex version of one in remove where it adds a null check.
+		var search = invItems.Select((item , i) => new { Item = item , Index = (int?)i });
+		int? index = (from pair in search where pair.Item == search select pair.Index).FirstOrDefault();
+		if (index == null)
+			print("newItem");
+		invItems.Add(new InvItems {amount = 1, Item = Iitem });
 		if(onItemChangedCallback != null)
 			onItemChangedCallback.Invoke();
 		return true;
 	}
 	public void Remove(Item Iitem)
 	{
-		//item = invItems.FindIndex(i => i.Contains == item);
-		//string index = invItems.First(s => s.Item == item));
-		//print(index);
 		int index = invItems.Select((item , i) => new { Item = item , Index = i }).First(x => x.Item.Item == Iitem).Index;
 		print(index);
-		int test = invItems.First(x => x.Item == Iitem).Index;
 		if (invItems[index].amount > 1)
 			invItems[index].amount--;
 		else if (invItems[index].amount == 1)
@@ -46,22 +47,7 @@ public class PlayerInventory : MonoBehaviour {
 		if (onItemChangedCallback != null)
 			onItemChangedCallback.Invoke();
 	}
-	bool finditem(InvItems ii, Item item)
-	{
-		if (ii.Item == item)
-			return true;
-		else
-			return false;
-	}
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+
 	[System.Serializable]
     public class InvItems //: IEquatable<InvItems>
     {

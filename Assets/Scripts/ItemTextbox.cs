@@ -48,7 +48,7 @@ public class ItemTextbox : Textboxbase {
 	}
 	public void nobutton()
 	{
-		GameObject.FindGameObjectWithTag("player").GetComponent<PlayerController>().playerignoreitem();
+		GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>().playerignoreitem();
 		base.skiptext();
 	}
 }

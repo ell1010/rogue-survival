@@ -40,6 +40,7 @@ public class PlayerController : MonoBehaviour
 	}
 	public void moveplayer()
 	{
+		if(!movingPaused)
 		StartCoroutine (movetotile ());
 	}
 	public IEnumerator movetotile()
@@ -62,7 +63,9 @@ public class PlayerController : MonoBehaviour
 			if (currentpath.Count == 1)
 				currentpath = null;
 			yield return new WaitForSeconds (0.02f);
+
 		}
+		Pathfinding.instance.RemoveLinePosition();
 		yield break;
 	}
 	public void playerpickup(Item pickup, GameObject toucheditem)

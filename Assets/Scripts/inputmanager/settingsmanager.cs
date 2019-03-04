@@ -41,9 +41,21 @@ public class settingsmanager : MonoBehaviour {
 		return Input.GetKeyDown(keybinds.keybinds [(int)KeybindActions.jump].keyCode);
 	}
 
-	public bool LeftMouseClick()
+	public bool LeftMouseClickDown()
 	{
-		return Input.GetMouseButtonDown (int.Parse(keybinds.keybinds[(int)KeybindActions.select].keyCode.ToString().Substring(5)));
+		return Input.GetMouseButton (int.Parse(keybinds.keybinds[(int)KeybindActions.select].keyCode.ToString().Substring(5)));
+	}
+	public bool LeftMouseClickUp()
+	{
+		return Input.GetMouseButtonUp(int.Parse(keybinds.keybinds[(int)KeybindActions.select].keyCode.ToString().Substring(5)));
+	}
+	public bool RightMouseButtonDown()
+	{
+		return Input.GetMouseButton(int.Parse(keybinds.keybinds[(int)KeybindActions.attack].keyCode.ToString().Substring(5)));
+	}
+	public bool RightMouseButtonUp()
+	{
+		return Input.GetMouseButton(int.Parse(keybinds.keybinds[(int)KeybindActions.attack].keyCode.ToString().Substring(5)));
 	}
 	public bool UpPressed()
 	{
@@ -57,7 +69,7 @@ public class settingsmanager : MonoBehaviour {
     {
 		//click = Input.GetMouseButtonDown (int.Parse (keys ["select"].ToString ().Substring (5)));
 		clicked = null;
-		if (LeftMouseClick()) 
+		if (LeftMouseClickDown()) 
 		{
 			print ("click");
 
