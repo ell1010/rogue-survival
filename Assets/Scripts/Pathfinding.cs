@@ -115,6 +115,10 @@ public class Pathfinding : MonoBehaviour {
 		float cost = nodegraph[targetX + (Mathf.Abs (tilemap.origin.x)),targetY + (Mathf.Abs (tilemap.origin.y))].movecost(tilemap,new Vector3Int(targetX,targetY,0));
 		return cost;
 	}
+	public void tiledistance()
+	{
+
+	}
 	void genpathto(int x, int y)
 	{
 		//gets the players current path and nulls it out

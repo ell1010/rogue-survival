@@ -37,6 +37,10 @@ public class PlayerController : MonoBehaviour
 				currnode++;
 			}
 		}
+		if (settingsmanager.instance.RightMouseButtonDown() && settingsmanager.instance.clicked.tag == "Enemy")
+		{
+			print("enemy");
+		}
 	}
 	public void moveplayer()
 	{
