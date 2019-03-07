@@ -39,7 +39,10 @@ public class PlayerController : MonoBehaviour
 		}
 		if (settingsmanager.instance.RightMouseButtonDown() && settingsmanager.instance.clicked.tag == "Enemy")
 		{
-			print("enemy");
+			if(Pathfinding.instance.tileDistance() <= 1)
+			{
+
+			}
 		}
 	}
 	public void moveplayer()
@@ -71,6 +74,10 @@ public class PlayerController : MonoBehaviour
 		}
 		Pathfinding.instance.RemoveLinePosition();
 		yield break;
+	}
+	void playerAttack()
+	{
+
 	}
 	public void playerpickup(Item pickup, GameObject toucheditem)
 	{

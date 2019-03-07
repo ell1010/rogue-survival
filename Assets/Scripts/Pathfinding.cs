@@ -50,6 +50,17 @@ public class Pathfinding : MonoBehaviour {
 		{
 			setPath();
 		}
+		if (settingsmanager.instance.RightMouseButtonDown())
+		{
+
+		}
+	}
+	
+	public void gettile()
+	{
+		Vector3 mouseworldpos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+		Vector3Int coord = tilemap.WorldToCell(mouseworldpos);
+
 	}
 
 	public void createnodes()
@@ -115,9 +126,10 @@ public class Pathfinding : MonoBehaviour {
 		float cost = nodegraph[targetX + (Mathf.Abs (tilemap.origin.x)),targetY + (Mathf.Abs (tilemap.origin.y))].movecost(tilemap,new Vector3Int(targetX,targetY,0));
 		return cost;
 	}
-	public void tiledistance()
+	public int tileDistance(int endx, int endy )
 	{
 
+		return 0;
 	}
 	void genpathto(int x, int y)
 	{

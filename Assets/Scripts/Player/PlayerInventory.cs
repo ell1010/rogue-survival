@@ -30,8 +30,14 @@ public class PlayerInventory : MonoBehaviour {
 		var search = invItems.Select((item , i) => new { Item = item , Index = (int?)i });
 		int? index = (from pair in search where pair.Item == search select pair.Index).FirstOrDefault();
 		if (index == null)
+		{
 			print("newItem");
-		invItems.Add(new InvItems {amount = 1, Item = Iitem });
+			invItems.Add(new InvItems { amount = 1, Item = Iitem });
+		}
+		else
+		{
+			invItems[(int)index].amount++;
+		}
 		if(onItemChangedCallback != null)
 			onItemChangedCallback.Invoke();
 		return true;
@@ -51,7 +57,6 @@ public class PlayerInventory : MonoBehaviour {
 	[System.Serializable]
     public class InvItems //: IEquatable<InvItems>
     {
-
 		public int amount;
 		public Item Item;
     }
