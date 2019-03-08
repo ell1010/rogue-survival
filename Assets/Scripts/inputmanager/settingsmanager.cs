@@ -16,7 +16,7 @@ public class settingsmanager : MonoBehaviour {
 	private Keybindings keybinds;
 	public bool click = false;
 
-	public GameObject clicked;
+	//public GameObject clicked;
 	public GameObject Canvas;
 
 	public GraphicRaycaster GraphicsRaycaster;
@@ -34,8 +34,9 @@ public class settingsmanager : MonoBehaviour {
 		sm = this;
 
 		GraphicsRaycaster = Canvas.GetComponent<GraphicRaycaster> ();
-		print(keybinds.keybinds[(int)KeybindActions.jump].keyCode);
+		//print(keybinds.keybinds[(int)KeybindActions.jump].keyCode);
 	}
+
 	public bool JumpPressed()
 	{ 
 		return Input.GetKeyDown(keybinds.keybinds [(int)KeybindActions.jump].keyCode);
@@ -43,7 +44,7 @@ public class settingsmanager : MonoBehaviour {
 
 	public bool LeftMouseClickDown()
 	{
-		return Input.GetMouseButton (int.Parse(keybinds.keybinds[(int)KeybindActions.select].keyCode.ToString().Substring(5)));
+		return Input.GetMouseButtonDown (int.Parse(keybinds.keybinds[(int)KeybindActions.select].keyCode.ToString().Substring(5)));
 	}
 	public bool LeftMouseClickUp()
 	{
@@ -51,12 +52,13 @@ public class settingsmanager : MonoBehaviour {
 	}
 	public bool RightMouseButtonDown()
 	{
-		return Input.GetMouseButton(int.Parse(keybinds.keybinds[(int)KeybindActions.attack].keyCode.ToString().Substring(5)));
+		return Input.GetMouseButtonDown(int.Parse(keybinds.keybinds[(int)KeybindActions.attack].keyCode.ToString().Substring(5)));
 	}
 	public bool RightMouseButtonUp()
 	{
-		return Input.GetMouseButton(int.Parse(keybinds.keybinds[(int)KeybindActions.attack].keyCode.ToString().Substring(5)));
+		return Input.GetMouseButtonUp(int.Parse(keybinds.keybinds[(int)KeybindActions.attack].keyCode.ToString().Substring(5)));
 	}
+
 	public bool UpPressed()
 	{
 		return Input.GetKeyDown(keybinds.keybinds [(int)KeybindActions.up].keyCode);
@@ -65,41 +67,81 @@ public class settingsmanager : MonoBehaviour {
 	{
 		return Input.GetKeyDown (keybinds.keybinds [(int)KeybindActions.down].keyCode);
 	}
+
+	public GameObject Clicked()
+	{
+		if (LeftMouseClickDown() || RightMouseButtonDown())
+		{
+			print("click");
+
+			pointerevent = new PointerEventData(eventsystem);
+			pointerevent.position = Input.mousePosition;
+			List<RaycastResult> results = new List<RaycastResult>();
+
+
+			GraphicsRaycaster.Raycast(pointerevent , results);
+			if (results.Count > 0)
+			{
+				return results[0].gameObject;
+			}
+			else if (results.Count == 0)
+			{
+
+				Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+				RaycastHit2D hit = Physics2D.Raycast(ray.origin , ray.direction);
+				if (hit.transform != null)
+				{
+					print("clicked" + hit);
+					return hit.transform.gameObject;
+				}
+				else
+					return null;
+			}
+			else
+			{
+				return null;
+			}
+
+		}
+		else
+			return null;
+	}
 	void Update ()
     {
-		//click = Input.GetMouseButtonDown (int.Parse (keys ["select"].ToString ().Substring (5)));
-		clicked = null;
-		if (LeftMouseClickDown()) 
-		{
-			print ("click");
+		//clicked = null;
+		//if (LeftMouseClickDown() || RightMouseButtonDown())
+		//{
+		//	print("click");
 
-			pointerevent = new PointerEventData (eventsystem);
-			pointerevent.position = Input.mousePosition;
-			List<RaycastResult> results = new List<RaycastResult> ();
+		//	pointerevent = new PointerEventData(eventsystem);
+		//	pointerevent.position = Input.mousePosition;
+		//	List<RaycastResult> results = new List<RaycastResult>();
 
 
-            GraphicsRaycaster.Raycast(pointerevent, results);
-            if (results.Count > 0)
-            {
-                clicked = results[0].gameObject;
-            }
-            else if (results.Count == 0)
-            {
+		//	GraphicsRaycaster.Raycast(pointerevent , results);
+		//	if (results.Count > 0)
+		//	{
+		//		clicked = results[0].gameObject;
+		//	}
+		//	else if (results.Count == 0)
+		//	{
 
-                Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-                RaycastHit2D hit = Physics2D.Raycast(ray.origin, ray.direction);
-                if (hit.transform != null)
-                {
-                    print("clicked" + hit);
-                    clicked = hit.transform.gameObject;
-                }
-            }
-            else
-            {
-                clicked = null;
-            }
-			
-		}
+		//		Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+		//		RaycastHit2D hit = Physics2D.Raycast(ray.origin , ray.direction);
+		//		if (hit.transform != null)
+		//		{
+		//			print("clicked" + hit);
+		//			clicked = hit.transform.gameObject;
+		//		}
+		//	}
+		//	else
+		//	{
+		//		clicked = null;
+		//	}
+
+		//}
+		//else
+		//	clicked = null;
 
 	}
 

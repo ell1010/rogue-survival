@@ -13,6 +13,8 @@ public class PlayerController : MonoBehaviour
 	bool movingPaused;
 	public Item itemAtFeet;
 	GameObject tempitem;
+	public int attackDamage = 2;
+	public int attackDistance = 3;
 
     private void Awake()
     {
@@ -37,12 +39,19 @@ public class PlayerController : MonoBehaviour
 				currnode++;
 			}
 		}
-		if (settingsmanager.instance.RightMouseButtonDown() && settingsmanager.instance.clicked.tag == "Enemy")
-		{
-			if(Pathfinding.instance.tileDistance() <= 1)
-			{
+		//print(settingsmanager.instance.clicked.tag);
 
+		if (settingsmanager.instance.RightMouseButtonDown() && settingsmanager.instance.Clicked().CompareTag("Enemy")) 
+		{
+			Vector2Int clickedtile = Pathfinding.instance.getttile();
+			print(clickedtile.x + " " + clickedtile.y);
+			float distance = Pathfinding.instance.getTileDistance(clickedtile.x , clickedtile.y);
+			if (distance <= attackDistance)
+			{
+				settingsmanager.instance.Clicked().GetComponent<EnemyBase>().takeDamage(attackDamage);
 			}
+			else
+				print(distance);
 		}
 	}
 	public void moveplayer()

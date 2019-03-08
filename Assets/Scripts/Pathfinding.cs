@@ -35,7 +35,7 @@ public class Pathfinding : MonoBehaviour {
 	}
 	
 	void Update () {
-		if(settingsmanager.instance.LeftMouseClickDown() && settingsmanager.instance.clicked == tilemap.gameObject )
+		if(settingsmanager.instance.LeftMouseClickDown() && settingsmanager.instance.Clicked() == tilemap.gameObject )
 		{
             //get the tile that was clicked
 			Vector3 mouseworldpos = Camera.main.ScreenToWorldPoint (Input.mousePosition);
@@ -55,12 +55,18 @@ public class Pathfinding : MonoBehaviour {
 
 		}
 	}
-	
-	public void gettile()
+	public Vector2Int getttile()
 	{
 		Vector3 mouseworldpos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 		Vector3Int coord = tilemap.WorldToCell(mouseworldpos);
-
+		return new Vector2Int (coord.x, coord.y);
+	}
+	
+	public float getTileDistance(int endx, int endy)
+	{
+		//print((tilemap.WorldToCell(player.transform.position).x + tilemap.origin.x) + " " + (tilemap.WorldToCell(player.transform.position).y + tilemap.origin.y));
+		return nodegraph[tilemap.WorldToCell(player.transform.position).x - tilemap.origin.x ,
+			tilemap.WorldToCell(player.transform.position).y - tilemap.origin.y].distanceto(nodegraph[endx - tilemap.origin.x , endy - tilemap.origin.y]);
 	}
 
 	public void createnodes()
@@ -126,11 +132,7 @@ public class Pathfinding : MonoBehaviour {
 		float cost = nodegraph[targetX + (Mathf.Abs (tilemap.origin.x)),targetY + (Mathf.Abs (tilemap.origin.y))].movecost(tilemap,new Vector3Int(targetX,targetY,0));
 		return cost;
 	}
-	public int tileDistance(int endx, int endy )
-	{
 
-		return 0;
-	}
 	void genpathto(int x, int y)
 	{
 		//gets the players current path and nulls it out
@@ -147,7 +149,7 @@ public class Pathfinding : MonoBehaviour {
 		Vector3 playerpos = player.transform.position;
 
 		//gets the players current position
-		int playerposx =tilemap.WorldToCell (playerpos).x+Mathf.Abs(tilemap.origin.x) ;
+		int playerposx =tilemap.WorldToCell (playerpos).x+Mathf.Abs(tilemap.origin.x);
 		int playerposy = tilemap.WorldToCell (playerpos).y+Mathf.Abs(tilemap.origin.y);
 
 		// sets the source and target nodes for the player (start and end points)
