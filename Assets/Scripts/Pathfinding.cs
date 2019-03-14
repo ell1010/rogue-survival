@@ -35,17 +35,17 @@ public class Pathfinding : MonoBehaviour {
 	}
 	
 	void Update () {
-		if(settingsmanager.instance.LeftMouseClickDown() && settingsmanager.instance.Clicked() == tilemap.gameObject )
-		{
-            //get the tile that was clicked
-			Vector3 mouseworldpos = Camera.main.ScreenToWorldPoint (Input.mousePosition);
-			Vector3Int coord = tilemap.WorldToCell (mouseworldpos);
-            // call pathfinding funftion
-			genpathto (
-				((int)Math.Floor(tilemap.GetCellCenterWorld (coord).x) + Mathf.Abs(tilemap.origin.x)) , 
-				((int)Math.Floor(tilemap.GetCellCenterWorld(coord).y) + Mathf.Abs(tilemap.origin.y))
-			);
-		}
+		//if(settingsmanager.instance.LeftMouseClickDown() && settingsmanager.instance.Clicked() == tilemap.gameObject )
+		//{
+  //          //get the tile that was clicked
+		//	Vector3 mouseworldpos = Camera.main.ScreenToWorldPoint (Input.mousePosition);
+		//	Vector3Int coord = tilemap.WorldToCell (mouseworldpos);
+  //          // call pathfinding funftion
+		//	genpathto (
+		//		((int)Math.Floor(tilemap.GetCellCenterWorld (coord).x) + Mathf.Abs(tilemap.origin.x)) , 
+		//		((int)Math.Floor(tilemap.GetCellCenterWorld(coord).y) + Mathf.Abs(tilemap.origin.y))
+		//	);
+		//}
 		if (settingsmanager.instance.LeftMouseClickUp())
 		{
 			setPath();
@@ -59,6 +59,9 @@ public class Pathfinding : MonoBehaviour {
 	{
 		Vector3 mouseworldpos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 		Vector3Int coord = tilemap.WorldToCell(mouseworldpos);
+		coord.x = (int)Math.Floor(tilemap.GetCellCenterWorld(coord).x) + Mathf.Abs(tilemap.origin.x);
+		coord.y = (int)Math.Floor(tilemap.GetCellCenterWorld(coord).y) + Mathf.Abs(tilemap.origin.y);
+
 		return new Vector2Int (coord.x, coord.y);
 	}
 	
@@ -133,7 +136,7 @@ public class Pathfinding : MonoBehaviour {
 		return cost;
 	}
 
-	void genpathto(int x, int y)
+	public void genpathto(int x, int y)
 	{
 		//gets the players current path and nulls it out
 		currentPath = new List<node>();

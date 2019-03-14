@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class EnemyMelee : EnemyBase {
+	Pathfinding pf;
 
 	// Use this for initialization
 	void Start () {

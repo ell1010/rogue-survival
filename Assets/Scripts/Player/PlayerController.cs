@@ -24,7 +24,11 @@ public class PlayerController : MonoBehaviour
     {
 
 	}
-	
+	public void playerturn()
+	{
+
+	}
+
 	// Update is called once per frame
 	void Update () 
 	{
@@ -39,7 +43,14 @@ public class PlayerController : MonoBehaviour
 				currnode++;
 			}
 		}
-		//print(settingsmanager.instance.clicked.tag);
+
+		if (settingsmanager.instance.LeftMouseClickDown() && settingsmanager.instance.Clicked() == Pathfinding.instance.tilemap.gameObject)
+		{
+			//get the tile that was clicked
+			Vector2Int targetpos = Pathfinding.instance.getttile();
+			// call pathfinding funftion
+			Pathfinding.instance.genpathto(targetpos.x ,targetpos.y);
+		}
 
 		if (settingsmanager.instance.RightMouseButtonDown() && settingsmanager.instance.Clicked().CompareTag("Enemy")) 
 		{
