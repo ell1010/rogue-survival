@@ -22,6 +22,7 @@ public class settingsmanager : MonoBehaviour {
 	public GraphicRaycaster GraphicsRaycaster;
 	public PointerEventData pointerevent;
 	public EventSystem eventsystem;
+	int layermask = 1 << 8;
 
 	// Use this for initialization
 	void Awake () {
@@ -32,7 +33,7 @@ public class settingsmanager : MonoBehaviour {
 		}
         DontDestroyOnLoad (gameObject);
 		sm = this;
-
+		//layermask = ~layermask;
 		GraphicsRaycaster = Canvas.GetComponent<GraphicRaycaster> ();
 		//print(keybinds.keybinds[(int)KeybindActions.jump].keyCode);
 	}
@@ -88,7 +89,7 @@ public class settingsmanager : MonoBehaviour {
 			{
 
 				Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-				RaycastHit2D hit = Physics2D.Raycast(ray.origin , ray.direction);
+				RaycastHit2D hit = Physics2D.Raycast(ray.origin , ray.direction,10, layermask);
 				if (hit.transform != null)
 				{
 					print("clicked" + hit);

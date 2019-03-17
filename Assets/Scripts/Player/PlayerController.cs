@@ -77,7 +77,7 @@ public class PlayerController : MonoBehaviour
 		while (remainingmovement > 0) {
 			while (movingPaused)
 				yield return null;
-			if (currentpath == null)
+			if (currentpath == null || currentpath.Count <= 1)
 				yield break;
 			
 			remainingmovement -= pf.costtotile(currentpath[0].x,currentpath[0].y,currentpath[1].x,currentpath[1].y);

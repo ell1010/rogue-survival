@@ -607,7 +607,7 @@ MonoBehaviour:
   UI: {fileID: 9117218}
   itemAtFeet: {fileID: 0}
   attackDamage: 2
-  attackDistance: 3
+  attackDistance: 4
 --- !u!61 &628580117
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -655,7 +655,7 @@ GameObject:
   m_Component:
   - component: {fileID: 674312704}
   - component: {fileID: 674312705}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Visual
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -985,7 +985,7 @@ GameObject:
   - component: {fileID: 1561991130}
   - component: {fileID: 1561991129}
   - component: {fileID: 1561991131}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Enemy
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -1063,6 +1063,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   health: 20
+  attack: 0
+  range: 0
 --- !u!1 &1683745248
 GameObject:
   m_ObjectHideFlags: 0
@@ -1454,7 +1456,7 @@ GameObject:
   - component: {fileID: 2026834319}
   - component: {fileID: 2026834322}
   - component: {fileID: 2026834323}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: test item
   m_TagString: Untagged
   m_Icon: {fileID: 0}

@@ -67,9 +67,9 @@ public class Pathfinding : MonoBehaviour {
 	
 	public float getTileDistance(int endx, int endy)
 	{
-		//print((tilemap.WorldToCell(player.transform.position).x + tilemap.origin.x) + " " + (tilemap.WorldToCell(player.transform.position).y + tilemap.origin.y));
+		print((tilemap.WorldToCell(player.transform.position).x) + " " + (tilemap.WorldToCell(player.transform.position).y));
 		return nodegraph[tilemap.WorldToCell(player.transform.position).x - tilemap.origin.x ,
-			tilemap.WorldToCell(player.transform.position).y - tilemap.origin.y].distanceto(nodegraph[endx - tilemap.origin.x , endy - tilemap.origin.y]);
+			tilemap.WorldToCell(player.transform.position).y - tilemap.origin.y].distanceto(nodegraph[endx , endy]);
 	}
 
 	public void createnodes()
@@ -206,10 +206,11 @@ public class Pathfinding : MonoBehaviour {
 		{
 			currentPath.Add (curr);
 			curr = prev [curr];
+			print("hello");
 		}
 		//error checking
 		if (curr == null) 
-			print ("null node");
+			print (curr);
 		//reverses current path to get correct order
 		currentPath.Reverse ();
 		linerenderer();
