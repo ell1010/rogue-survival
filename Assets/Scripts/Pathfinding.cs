@@ -21,6 +21,7 @@ public class Pathfinding : MonoBehaviour {
 	public Grid tgrid;
 	node[,] nodegraph;
 	GameObject player;
+	Vector3 playerpos;
 	List<node> currentPath = new List<node>();
 	public GameObject gnode;
 	public LineRenderer line;
@@ -29,26 +30,18 @@ public class Pathfinding : MonoBehaviour {
 	void Start () {
 		player = GameObject.FindGameObjectWithTag("Player");
 		player.GetComponent<PlayerController> ().pf = this;
+		//caches the players postion
+		playerpos = player.transform.position;
 		tilemap = GetComponent<Tilemap> ();
 		line = GetComponent<LineRenderer>();
 		createnodes ();
 	}
 	
 	void Update () {
-		//if(settingsmanager.instance.LeftMouseClickDown() && settingsmanager.instance.Clicked() == tilemap.gameObject )
-		//{
-  //          //get the tile that was clicked
-		//	Vector3 mouseworldpos = Camera.main.ScreenToWorldPoint (Input.mousePosition);
-		//	Vector3Int coord = tilemap.WorldToCell (mouseworldpos);
-  //          // call pathfinding funftion
-		//	genpathto (
-		//		((int)Math.Floor(tilemap.GetCellCenterWorld (coord).x) + Mathf.Abs(tilemap.origin.x)) , 
-		//		((int)Math.Floor(tilemap.GetCellCenterWorld(coord).y) + Mathf.Abs(tilemap.origin.y))
-		//	);
-		//}
-		if (settingsmanager.instance.LeftMouseClickUp())
+
+		if (settingsmanager.instance.LeftMouseButtonUp())
 		{
-			setPath();
+			//setPath();
 		}
 		if (settingsmanager.instance.RightMouseButtonDown())
 		{
@@ -63,6 +56,15 @@ public class Pathfinding : MonoBehaviour {
 		coord.y = (int)Math.Floor(tilemap.GetCellCenterWorld(coord).y) + Mathf.Abs(tilemap.origin.y);
 
 		return new Vector2Int (coord.x, coord.y);
+	}
+	public Vector2Int getplayertile()
+	{
+		return new Vector2Int(tilemap.WorldToCell(playerpos).x - tilemap.origin.x , tilemap.WorldToCell(playerpos).y - tilemap.origin.y);
+	}
+
+	public void updateplayerpos()
+	{
+		playerpos = player.transform.position;
 	}
 	
 	public float getTileDistance(int endx, int endy)
@@ -136,28 +138,42 @@ public class Pathfinding : MonoBehaviour {
 		return cost;
 	}
 
-	public void genpathto(int x, int y)
+	public void playerpath(int endx, int endy)
 	{
 		//gets the players current path and nulls it out
 		currentPath = new List<node>();
-		player.GetComponent<PlayerController> ().currentpath = null;
+		player.GetComponent<PlayerController>().currentpath = null;
+		//gets the players current position
+		int playerposx = tilemap.WorldToCell(playerpos).x + Mathf.Abs(tilemap.origin.x);
+		int playerposy = tilemap.WorldToCell(playerpos).y + Mathf.Abs(tilemap.origin.y);
+		genpathto(playerposx , playerposy , endx, endy);
+		player.GetComponent<PlayerController>().currentpath = currentPath;
+	}
+
+	public void enemypath(GameObject enemy)
+	{
+		currentPath = new List<node>();
+
+		int playerposx = tilemap.WorldToCell(playerpos).x + Mathf.Abs(tilemap.origin.x);
+		int playerposy = tilemap.WorldToCell(playerpos).y + Mathf.Abs(tilemap.origin.y);
+		genpathto(tilemap.WorldToCell(enemy.transform.position).x + Mathf.Abs(tilemap.origin.x) , tilemap.WorldToCell(enemy.transform.position).y + Mathf.Abs(tilemap.origin.y), playerposx, playerposy);
+		enemy.GetComponent<EnemyBase>().currentpath = currentPath;
+	}
+
+	void genpathto(int startx, int starty, int endx, int endy)
+	{
+		
 		// creates 2 dictionarys, one for calculating shorted distance, one for all previous shortest nodes (path in reverse)
 		Dictionary<node,float> dist = new Dictionary<node, float>();
 		Dictionary<node,node> prev = new Dictionary<node, node> ();
 
 		//creates a list for all unvisted nodes
 		List<node> unvisited = new List<node> ();
-
-		//caches the players postion
-		Vector3 playerpos = player.transform.position;
-
-		//gets the players current position
-		int playerposx =tilemap.WorldToCell (playerpos).x+Mathf.Abs(tilemap.origin.x);
-		int playerposy = tilemap.WorldToCell (playerpos).y+Mathf.Abs(tilemap.origin.y);
+		
 
 		// sets the source and target nodes for the player (start and end points)
-		node source = nodegraph [playerposx,playerposy];
-		node target = nodegraph [x, y];
+		node source = nodegraph [startx,starty];
+		node target = nodegraph [endx, endy];
         //print("targetx" + target.x + " targety" + target.y);
 
 		// sets the distance to source node to 0 and nulls it out from the dictionarys
@@ -217,7 +233,7 @@ public class Pathfinding : MonoBehaviour {
 	}
 	void setPath()
 	{
-		player.GetComponent<PlayerController>().currentpath = currentPath;
+		
 	}
 
 	public void linerenderer()

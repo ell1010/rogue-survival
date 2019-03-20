@@ -44,12 +44,20 @@ public class PlayerController : MonoBehaviour
 			}
 		}
 
-		if (settingsmanager.instance.LeftMouseClickDown() && settingsmanager.instance.Clicked() == Pathfinding.instance.tilemap.gameObject)
+		if (settingsmanager.instance.LeftMouseButton() && settingsmanager.instance.Clicked() == Pathfinding.instance.tilemap.gameObject)
 		{
-			//get the tile that was clicked
-			Vector2Int targetpos = Pathfinding.instance.getttile();
-			// call pathfinding funftion
-			Pathfinding.instance.genpathto(targetpos.x ,targetpos.y);
+			print("click");
+			Vector2Int targetpos = Vector2Int.zero;
+			if (targetpos == Pathfinding.instance.getttile())
+			{
+
+			}
+			else
+			{
+				targetpos = Pathfinding.instance.getttile();
+				// call pathfinding funftion
+				Pathfinding.instance.playerpath(targetpos.x , targetpos.y);
+			}
 		}
 
 		if (settingsmanager.instance.RightMouseButtonDown() && settingsmanager.instance.Clicked().CompareTag("Enemy")) 
@@ -78,7 +86,10 @@ public class PlayerController : MonoBehaviour
 			while (movingPaused)
 				yield return null;
 			if (currentpath == null || currentpath.Count <= 1)
+			{
+				Pathfinding.instance.RemoveLinePosition();
 				yield break;
+			}
 			
 			remainingmovement -= pf.costtotile(currentpath[0].x,currentpath[0].y,currentpath[1].x,currentpath[1].y);
 
@@ -93,6 +104,7 @@ public class PlayerController : MonoBehaviour
 
 		}
 		Pathfinding.instance.RemoveLinePosition();
+		Pathfinding.instance.updateplayerpos();
 		yield break;
 	}
 	void playerAttack()

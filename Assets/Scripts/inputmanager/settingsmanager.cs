@@ -43,13 +43,17 @@ public class settingsmanager : MonoBehaviour {
 		return Input.GetKeyDown(keybinds.keybinds [(int)KeybindActions.jump].keyCode);
 	}
 
-	public bool LeftMouseClickDown()
+	public bool LeftMouseButtonDown()
 	{
 		return Input.GetMouseButtonDown (int.Parse(keybinds.keybinds[(int)KeybindActions.select].keyCode.ToString().Substring(5)));
 	}
-	public bool LeftMouseClickUp()
+	public bool LeftMouseButtonUp()
 	{
 		return Input.GetMouseButtonUp(int.Parse(keybinds.keybinds[(int)KeybindActions.select].keyCode.ToString().Substring(5)));
+	}
+	public bool LeftMouseButton()
+	{
+		return Input.GetMouseButton(int.Parse(keybinds.keybinds[(int)KeybindActions.select].keyCode.ToString().Substring(5)));
 	}
 	public bool RightMouseButtonDown()
 	{
@@ -71,7 +75,7 @@ public class settingsmanager : MonoBehaviour {
 
 	public GameObject Clicked()
 	{
-		if (LeftMouseClickDown() || RightMouseButtonDown())
+		if (LeftMouseButtonDown() || RightMouseButtonDown() || LeftMouseButton())
 		{
 			print("click");
 
