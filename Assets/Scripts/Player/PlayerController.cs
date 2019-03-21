@@ -46,7 +46,8 @@ public class PlayerController : MonoBehaviour
 
 		if (settingsmanager.instance.LeftMouseButton() && settingsmanager.instance.Clicked() == Pathfinding.instance.tilemap.gameObject)
 		{
-			Vector2Int targetpos = Vector2Int.zero;
+            //print("test");
+			Vector2Int targetpos = new Vector2Int(-1,-1);
 			if (targetpos == Pathfinding.instance.getttile())
 			{
 
@@ -54,7 +55,8 @@ public class PlayerController : MonoBehaviour
 			else
 			{
 				targetpos = Pathfinding.instance.getttile();
-				// call pathfinding funftion
+                // call pathfinding funftion
+                //print(targetpos);
 				Pathfinding.instance.playerpath(targetpos.x , targetpos.y);
 			}
 		}
@@ -80,29 +82,30 @@ public class PlayerController : MonoBehaviour
 			print("movement" + Movement);
 			while (movingPaused)
 				yield return null;
-			if (currentpath == null || currentpath.Count <= 1)
+			if (currentpath == null || currentpath.Count < 1)
 			{
-				print("test");
+				//print("test");
 				Pathfinding.instance.RemoveLinePosition();
 				Pathfinding.instance.updateplayerpos();
 				yield break;
 			}
-			while (moveper < 1)
+			while (moveper < 1 && Movement > 0)
 			{
 				transform.position = Vector3.Slerp(new Vector3(currentpath[0].x,currentpath[0].y,0),new Vector3(currentpath[1].x,currentpath[1].y,0),moveper);
 				moveper += Time.deltaTime * 1.5f;
-				print("moving");
+				//print("moving");
 				yield return null;
 			}
 			moveper = 0;
-			Movement -= (int)pf.costtotile(currentpath[0].x,currentpath[0].y,currentpath[1].x,currentpath[1].y);
-			transform.position = new Vector3 (currentpath [1].x, currentpath [1].y, 0);
-
+            transform.position = new Vector3(currentpath[1].x, currentpath[1].y, 0);
+            Movement -= (int)pf.costtotile(currentpath[0].x,currentpath[0].y,currentpath[1].x,currentpath[1].y);
+			
+            print("stop "+currentpath[1].x + "" + currentpath[1].y);
 			currentpath.RemoveAt (0);
 
 			if (currentpath.Count == 1)
 			{
-				print("curr = null");
+				//print("curr = null");
 				currentpath = null;
 			}
 			yield return new WaitForSeconds (0.02f);
@@ -151,7 +154,7 @@ public class PlayerController : MonoBehaviour
 	}
 	void OnTriggerEnter2D(Collider2D col)
 	{
-		print ("hello");
+		//print ("hello");
 	}
 }
 

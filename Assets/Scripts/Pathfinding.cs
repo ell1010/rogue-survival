@@ -39,8 +39,11 @@ public class Pathfinding : MonoBehaviour {
 	
 	void Update () {
 
-		if (settingsmanager.instance.LeftMouseButtonUp())
+		if (settingsmanager.instance.LeftMouseButtonDown())
 		{
+            //Vector3 mouseworldpos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            //Vector3Int coord = tilemap.WorldToCell(mouseworldpos);
+            //print(coord);
 			//setPath();
 		}
 		if (settingsmanager.instance.RightMouseButtonDown())
@@ -147,6 +150,7 @@ public class Pathfinding : MonoBehaviour {
 		//gets the players current position
 		int playerposx = tilemap.WorldToCell(playerpos).x + Mathf.Abs(tilemap.origin.x);
 		int playerposy = tilemap.WorldToCell(playerpos).y + Mathf.Abs(tilemap.origin.y);
+        print("playerpos" + (tilemap.WorldToCell(playerpos).y));
 		genpathto(playerposx , playerposy , endx, endy);
 		player.GetComponent<PlayerController>().currentpath = currentPath;
 	}
@@ -217,7 +221,6 @@ public class Pathfinding : MonoBehaviour {
 		if (prev [target] == null) 
 			return;
 		node curr = target;
-
 		//go through prev adding each one to the current path
 		while (curr != null) 
 		{
@@ -226,10 +229,11 @@ public class Pathfinding : MonoBehaviour {
 			//print("hello");
 		}
 		//error checking
-		if (curr == null) 
-			print (curr);
-		//reverses current path to get correct order
-		currentPath.Reverse ();
+		//if (curr == null) 
+		//	print (curr);
+        //reverses current path to get correct order
+        //print("path found");
+        currentPath.Reverse ();
 		linerenderer();
 	}
 	void setPath()

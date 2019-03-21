@@ -77,7 +77,7 @@ public class settingsmanager : MonoBehaviour {
 	{
 		if (LeftMouseButtonDown() || RightMouseButtonDown() || LeftMouseButton())
 		{
-			print("click");
+			//print("click");
 
 			pointerevent = new PointerEventData(eventsystem);
 			pointerevent.position = Input.mousePosition;
