@@ -7,29 +7,29 @@ public class PlayerController : MonoBehaviour
 {
 	public List<Pathfinding.node> currentpath = null;
 	public Pathfinding pf;
-	int movespeed = 2;
+	int startmovement = 3;
+	int Movement = 3;
     public Playerinformation playerinfo;
 	public GameObject UI;
 	bool movingPaused;
 	public Item itemAtFeet;
-	GameObject tempitem;
-	public int attackDamage = 2;
-	public int attackDistance = 3;
+	GameObject tempItem;
+	bool canAttack;
+	int attackDamage = 2;
+	int attackDistance = 3;
 
     private void Awake()
     {
-        //gameObject.name = playerinfo.PlayerName;
     }
     void Start ()
     {
-
+		canAttack = true;
 	}
 	public void playerturn()
 	{
-
+		Movement = startmovement;
 	}
-
-	// Update is called once per frame
+	
 	void Update () 
 	{
 		if (currentpath != null) 
@@ -46,7 +46,6 @@ public class PlayerController : MonoBehaviour
 
 		if (settingsmanager.instance.LeftMouseButton() && settingsmanager.instance.Clicked() == Pathfinding.instance.tilemap.gameObject)
 		{
-			print("click");
 			Vector2Int targetpos = Vector2Int.zero;
 			if (targetpos == Pathfinding.instance.getttile())
 			{
@@ -59,8 +58,62 @@ public class PlayerController : MonoBehaviour
 				Pathfinding.instance.playerpath(targetpos.x , targetpos.y);
 			}
 		}
+		if (settingsmanager.instance.LeftMouseButtonUp())
+		{
+			moveplayer();
+		}
 
 		if (settingsmanager.instance.RightMouseButtonDown() && settingsmanager.instance.Clicked().CompareTag("Enemy")) 
+		{
+			playerAttack();
+		}
+	}
+	public void moveplayer()
+	{
+		if(!movingPaused)
+		StartCoroutine (movetotile ());
+	}
+	public IEnumerator movetotile()
+	{
+		float moveper = 0;
+		while (Movement > 0) {
+			print("movement" + Movement);
+			while (movingPaused)
+				yield return null;
+			if (currentpath == null || currentpath.Count <= 1)
+			{
+				print("test");
+				Pathfinding.instance.RemoveLinePosition();
+				Pathfinding.instance.updateplayerpos();
+				yield break;
+			}
+			while (moveper < 1)
+			{
+				transform.position = Vector3.Slerp(new Vector3(currentpath[0].x,currentpath[0].y,0),new Vector3(currentpath[1].x,currentpath[1].y,0),moveper);
+				moveper += Time.deltaTime * 1.5f;
+				print("moving");
+				yield return null;
+			}
+			moveper = 0;
+			Movement -= (int)pf.costtotile(currentpath[0].x,currentpath[0].y,currentpath[1].x,currentpath[1].y);
+			transform.position = new Vector3 (currentpath [1].x, currentpath [1].y, 0);
+
+			currentpath.RemoveAt (0);
+
+			if (currentpath.Count == 1)
+			{
+				print("curr = null");
+				currentpath = null;
+			}
+			yield return new WaitForSeconds (0.02f);
+		}
+		Pathfinding.instance.RemoveLinePosition();
+		Pathfinding.instance.updateplayerpos();
+		yield break;
+	}
+	void playerAttack()
+	{
+		if (canAttack && Movement > 0)
 		{
 			Vector2Int clickedtile = Pathfinding.instance.getttile();
 			print(clickedtile.x + " " + clickedtile.y);
@@ -73,48 +126,10 @@ public class PlayerController : MonoBehaviour
 				print(distance);
 		}
 	}
-	public void moveplayer()
-	{
-		if(!movingPaused)
-		StartCoroutine (movetotile ());
-	}
-	public IEnumerator movetotile()
-	{
-		float remainingmovement = movespeed;
-
-		while (remainingmovement > 0) {
-			while (movingPaused)
-				yield return null;
-			if (currentpath == null || currentpath.Count <= 1)
-			{
-				Pathfinding.instance.RemoveLinePosition();
-				yield break;
-			}
-			
-			remainingmovement -= pf.costtotile(currentpath[0].x,currentpath[0].y,currentpath[1].x,currentpath[1].y);
-
-			transform.position = new Vector3 (currentpath [1].x, currentpath [1].y, 0);
-
-			currentpath.RemoveAt (0);
-			print ("move");
-
-			if (currentpath.Count == 1)
-				currentpath = null;
-			yield return new WaitForSeconds (0.02f);
-
-		}
-		Pathfinding.instance.RemoveLinePosition();
-		Pathfinding.instance.updateplayerpos();
-		yield break;
-	}
-	void playerAttack()
-	{
-
-	}
 	public void playerpickup(Item pickup, GameObject toucheditem)
 	{
 		itemAtFeet = pickup;
-		tempitem = toucheditem;
+		tempItem = toucheditem;
 		UI.transform.GetChild (1).gameObject.SetActive (true);
 		movingPaused = true;
 	}
@@ -123,7 +138,7 @@ public class PlayerController : MonoBehaviour
 		movingPaused = false;
 		bool pickedUp = PlayerInventory.instance.Add(itemAtFeet);
 		if (pickedUp)
-			Destroy(tempitem);
+			Destroy(tempItem);
 		else
 		{
 			string test = "Inventory full!";

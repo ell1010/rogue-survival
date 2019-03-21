@@ -65,6 +65,7 @@ public class Pathfinding : MonoBehaviour {
 	public void updateplayerpos()
 	{
 		playerpos = player.transform.position;
+		print(player.transform.position);
 	}
 	
 	public float getTileDistance(int endx, int endy)
@@ -222,7 +223,7 @@ public class Pathfinding : MonoBehaviour {
 		{
 			currentPath.Add (curr);
 			curr = prev [curr];
-			print("hello");
+			//print("hello");
 		}
 		//error checking
 		if (curr == null) 
@@ -258,7 +259,7 @@ public class Pathfinding : MonoBehaviour {
 	public void RemoveLinePosition()
 	{
 		line.positionCount = currentPath.Count;
-		print("hello");
+		//print("hello");
 	}
 
 	public	class node 

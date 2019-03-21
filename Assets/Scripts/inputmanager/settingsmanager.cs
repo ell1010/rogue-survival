@@ -96,7 +96,7 @@ public class settingsmanager : MonoBehaviour {
 				RaycastHit2D hit = Physics2D.Raycast(ray.origin , ray.direction,10, layermask);
 				if (hit.transform != null)
 				{
-					print("clicked" + hit);
+					//print("clicked" + hit);
 					return hit.transform.gameObject;
 				}
 				else
@@ -113,40 +113,6 @@ public class settingsmanager : MonoBehaviour {
 	}
 	void Update ()
     {
-		//clicked = null;
-		//if (LeftMouseClickDown() || RightMouseButtonDown())
-		//{
-		//	print("click");
-
-		//	pointerevent = new PointerEventData(eventsystem);
-		//	pointerevent.position = Input.mousePosition;
-		//	List<RaycastResult> results = new List<RaycastResult>();
-
-
-		//	GraphicsRaycaster.Raycast(pointerevent , results);
-		//	if (results.Count > 0)
-		//	{
-		//		clicked = results[0].gameObject;
-		//	}
-		//	else if (results.Count == 0)
-		//	{
-
-		//		Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-		//		RaycastHit2D hit = Physics2D.Raycast(ray.origin , ray.direction);
-		//		if (hit.transform != null)
-		//		{
-		//			print("clicked" + hit);
-		//			clicked = hit.transform.gameObject;
-		//		}
-		//	}
-		//	else
-		//	{
-		//		clicked = null;
-		//	}
-
-		//}
-		//else
-		//	clicked = null;
 
 	}
 
