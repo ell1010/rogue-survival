@@ -7,7 +7,7 @@ public class PlayerController : MonoBehaviour
 {
 	public List<Pathfinding.node> currentpath = null;
 	public Pathfinding pf;
-	int startmovement = 3;
+	public int startmovement = 3;
 	int Movement = 3;
     public Playerinformation playerinfo;
 	public GameObject UI;
@@ -17,17 +17,23 @@ public class PlayerController : MonoBehaviour
 	bool canAttack;
 	int attackDamage = 2;
 	int attackDistance = 3;
+	Vector2Int targetpos;
 
-    private void Awake()
+
+	private void Awake()
     {
+
     }
     void Start ()
     {
 		canAttack = true;
+
+		targetpos = new Vector2Int(-1 , -1);
 	}
 	public void playerturn()
 	{
 		Movement = startmovement;
+		canAttack = true;
 	}
 	
 	void Update () 
@@ -47,14 +53,14 @@ public class PlayerController : MonoBehaviour
 		if (settingsmanager.instance.LeftMouseButton() && settingsmanager.instance.Clicked() == Pathfinding.instance.tilemap.gameObject)
 		{
             //print("test");
-			Vector2Int targetpos = new Vector2Int(-1,-1);
 			if (targetpos == Pathfinding.instance.getttile())
 			{
-
+				print("same");
 			}
 			else
 			{
 				targetpos = Pathfinding.instance.getttile();
+				print("different");
                 // call pathfinding funftion
                 //print(targetpos);
 				Pathfinding.instance.playerpath(targetpos.x , targetpos.y);
@@ -74,12 +80,14 @@ public class PlayerController : MonoBehaviour
 	{
 		if(!movingPaused)
 		StartCoroutine (movetotile ());
+		print("pos" + transform.position);
 	}
 	public IEnumerator movetotile()
 	{
 		float moveper = 0;
 		while (Movement > 0) {
 			print("movement" + Movement);
+			moveper = 0;
 			while (movingPaused)
 				yield return null;
 			if (currentpath == null || currentpath.Count < 1)
@@ -96,11 +104,10 @@ public class PlayerController : MonoBehaviour
 				//print("moving");
 				yield return null;
 			}
-			moveper = 0;
-            transform.position = new Vector3(currentpath[1].x, currentpath[1].y, 0);
+			moveper = 1;
+            
             Movement -= (int)pf.costtotile(currentpath[0].x,currentpath[0].y,currentpath[1].x,currentpath[1].y);
-			
-            print("stop "+currentpath[1].x + "" + currentpath[1].y);
+			transform.position = new Vector3(currentpath[1].x , currentpath[1].y , 0);
 			currentpath.RemoveAt (0);
 
 			if (currentpath.Count == 1)
@@ -112,6 +119,7 @@ public class PlayerController : MonoBehaviour
 		}
 		Pathfinding.instance.RemoveLinePosition();
 		Pathfinding.instance.updateplayerpos();
+		//print("test");
 		yield break;
 	}
 	void playerAttack()
@@ -124,6 +132,7 @@ public class PlayerController : MonoBehaviour
 			if (distance <= attackDistance)
 			{
 				settingsmanager.instance.Clicked().GetComponent<EnemyBase>().takeDamage(attackDamage);
+				canAttack = false;
 			}
 			else
 				print(distance);

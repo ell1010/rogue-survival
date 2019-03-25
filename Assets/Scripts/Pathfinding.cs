@@ -26,6 +26,7 @@ public class Pathfinding : MonoBehaviour {
 	public GameObject gnode;
 	public LineRenderer line;
 	public Vector3[] points;
+	public LineGenerator linegen;
 
 	void Start () {
 		player = GameObject.FindGameObjectWithTag("Player");
@@ -234,7 +235,8 @@ public class Pathfinding : MonoBehaviour {
         //reverses current path to get correct order
         //print("path found");
         currentPath.Reverse ();
-		linerenderer();
+		//linerenderer();
+		linegen.createline(currentPath);
 	}
 	void setPath()
 	{
