@@ -9,6 +9,13 @@ public class PlayerController : MonoBehaviour
 	public Pathfinding pf;
 	public int startmovement = 3;
 	int Movement = 3;
+	public int currentmovement
+	{
+		get
+		{
+			return Movement;
+		}
+	}
     public Playerinformation playerinfo;
 	public GameObject UI;
 	bool movingPaused;
@@ -18,12 +25,8 @@ public class PlayerController : MonoBehaviour
 	int attackDamage = 2;
 	int attackDistance = 3;
 	Vector2Int targetpos;
+	public GameObject Linegen;
 
-
-	private void Awake()
-    {
-
-    }
     void Start ()
     {
 		canAttack = true;
@@ -62,7 +65,6 @@ public class PlayerController : MonoBehaviour
 				targetpos = Pathfinding.instance.getttile();
 				print("different");
                 // call pathfinding funftion
-                //print(targetpos);
 				Pathfinding.instance.playerpath(targetpos.x , targetpos.y);
 			}
 		}
@@ -92,14 +94,14 @@ public class PlayerController : MonoBehaviour
 				yield return null;
 			if (currentpath == null || currentpath.Count < 1)
 			{
-				//print("test");
-				Pathfinding.instance.RemoveLinePosition();
+				print("test");
+				//Pathfinding.instance.RemoveLinePosition();
 				Pathfinding.instance.updateplayerpos();
 				yield break;
 			}
 			while (moveper < 1 && Movement > 0)
 			{
-				transform.position = Vector3.Slerp(new Vector3(currentpath[0].x,currentpath[0].y,0),new Vector3(currentpath[1].x,currentpath[1].y,0),moveper);
+				transform.position = Vector2.Lerp(new Vector2(currentpath[0].x,currentpath[0].y),new Vector3(currentpath[1].x,currentpath[1].y),moveper);
 				moveper += Time.deltaTime * 1.5f;
 				//print("moving");
 				yield return null;
@@ -110,14 +112,19 @@ public class PlayerController : MonoBehaviour
 			transform.position = new Vector3(currentpath[1].x , currentpath[1].y , 0);
 			currentpath.RemoveAt (0);
 
+			if(currentpath.Count > 1)
+			Linegen.GetComponent<LineGenerator>().createline(currentpath);
+
+			//Linegen.GetComponent<LineGenerator>().updateline(Movement , currentpath.Count);
 			if (currentpath.Count == 1)
 			{
 				//print("curr = null");
 				currentpath = null;
 			}
+			Pathfinding.instance.updateplayerpos();
 			yield return new WaitForSeconds (0.02f);
 		}
-		Pathfinding.instance.RemoveLinePosition();
+		//Pathfinding.instance.RemoveLinePosition();
 		Pathfinding.instance.updateplayerpos();
 		//print("test");
 		yield break;

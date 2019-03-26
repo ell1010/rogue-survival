@@ -31,31 +31,24 @@ public class Pathfinding : MonoBehaviour {
 	void Start () {
 		player = GameObject.FindGameObjectWithTag("Player");
 		player.GetComponent<PlayerController> ().pf = this;
+
 		//caches the players postion
 		playerpos = player.transform.position;
 		tilemap = GetComponent<Tilemap> ();
-		line = GetComponent<LineRenderer>();
+
 		createnodes ();
 	}
 	
-	void Update () {
+	void Update ()
+	{
 
-		if (settingsmanager.instance.LeftMouseButtonDown())
-		{
-            //Vector3 mouseworldpos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            //Vector3Int coord = tilemap.WorldToCell(mouseworldpos);
-            //print(coord);
-			//setPath();
-		}
-		if (settingsmanager.instance.RightMouseButtonDown())
-		{
-
-		}
 	}
 	public Vector2Int getttile()
 	{
+
 		Vector3 mouseworldpos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 		Vector3Int coord = tilemap.WorldToCell(mouseworldpos);
+
 		coord.x = (int)Math.Floor(tilemap.GetCellCenterWorld(coord).x) + Mathf.Abs(tilemap.origin.x);
 		coord.y = (int)Math.Floor(tilemap.GetCellCenterWorld(coord).y) + Mathf.Abs(tilemap.origin.y);
 
@@ -74,7 +67,8 @@ public class Pathfinding : MonoBehaviour {
 	
 	public float getTileDistance(int endx, int endy)
 	{
-		print((tilemap.WorldToCell(player.transform.position).x) + " " + (tilemap.WorldToCell(player.transform.position).y));
+		//print((tilemap.WorldToCell(player.transform.position).x) + " " + (tilemap.WorldToCell(player.transform.position).y));
+
 		return nodegraph[tilemap.WorldToCell(player.transform.position).x - tilemap.origin.x ,
 			tilemap.WorldToCell(player.transform.position).y - tilemap.origin.y].distanceto(nodegraph[endx , endy]);
 	}
@@ -85,9 +79,8 @@ public class Pathfinding : MonoBehaviour {
 		Vector3Int startpos = tilemap.origin;
 		Vector3Int size = tilemap.size;
 
-		Vector3Int endpoint = ((startpos +
-			new Vector3Int(Mathf.Abs(startpos.x), Mathf.Abs(startpos.y),0))
-			+ size)-Vector3Int.one;
+		Vector3Int endpoint = ((startpos + new Vector3Int(Mathf.Abs(startpos.x), Mathf.Abs(startpos.y),0)) + size)-Vector3Int.one;
+
 		nodegraph = new node[size.x, size.y];
 
 		for (int x = 0; x <= endpoint.x; x++)
@@ -98,6 +91,7 @@ public class Pathfinding : MonoBehaviour {
 				nodegraph [x, y] = new node ();
 				nodegraph [x, y].x = x - (Mathf.Abs (startpos.x));
 				nodegraph [x, y].y = y - (Mathf.Abs (startpos.y));
+
 				GameObject newnode = GameObject.Instantiate (gnode, new Vector3 (nodegraph [x, y].x, nodegraph [x, y].y, -1), Quaternion.identity);
 				newnode.name = (nodegraph [x, y].x.ToString () + nodegraph [x, y].y.ToString ());
 				
@@ -148,10 +142,15 @@ public class Pathfinding : MonoBehaviour {
 		//gets the players current path and nulls it out
 		currentPath = new List<node>();
 		player.GetComponent<PlayerController>().currentpath = null;
+
+		updateplayerpos();
+
 		//gets the players current position
 		int playerposx = tilemap.WorldToCell(playerpos).x + Mathf.Abs(tilemap.origin.x);
 		int playerposy = tilemap.WorldToCell(playerpos).y + Mathf.Abs(tilemap.origin.y);
-        print("playerpos" + (tilemap.WorldToCell(playerpos).y));
+
+        //print("playerpos" + (tilemap.WorldToCell(playerpos).y));
+
 		genpathto(playerposx , playerposy , endx, endy);
 		player.GetComponent<PlayerController>().currentpath = currentPath;
 	}
@@ -162,6 +161,7 @@ public class Pathfinding : MonoBehaviour {
 
 		int playerposx = tilemap.WorldToCell(playerpos).x + Mathf.Abs(tilemap.origin.x);
 		int playerposy = tilemap.WorldToCell(playerpos).y + Mathf.Abs(tilemap.origin.y);
+
 		genpathto(tilemap.WorldToCell(enemy.transform.position).x + Mathf.Abs(tilemap.origin.x) , tilemap.WorldToCell(enemy.transform.position).y + Mathf.Abs(tilemap.origin.y), playerposx, playerposy);
 		enemy.GetComponent<EnemyBase>().currentpath = currentPath;
 	}
@@ -233,39 +233,12 @@ public class Pathfinding : MonoBehaviour {
 		//if (curr == null) 
 		//	print (curr);
         //reverses current path to get correct order
-        //print("path found");
         currentPath.Reverse ();
-		//linerenderer();
 		linegen.createline(currentPath);
 	}
 	void setPath()
 	{
 		
-	}
-
-	public void linerenderer()
-	{
-		line.positionCount = 0;
-		line.material = new Material(Shader.Find("Sprites/Default"));
-		line.startWidth = 0.05f;
-		line.endWidth = 0.05f;
-		line.startColor = Color.blue;
-		line.endColor = Color.blue;
-		line.positionCount = currentPath.Count;
-		points = new Vector3[currentPath.Count];
-		for (int i = 0; i < currentPath.Count; i++)
-		{
-			points[i] = new Vector3(currentPath[i].x + 0.5f , currentPath[i].y + 0.5f , -0.1f);
-		}
-		points = points.Reverse().ToArray();
-		line.SetPositions(points);
-		line.alignment = LineAlignment.View;
-	}
-
-	public void RemoveLinePosition()
-	{
-		line.positionCount = currentPath.Count;
-		//print("hello");
 	}
 
 	public	class node 
@@ -301,8 +274,13 @@ public class Pathfinding : MonoBehaviour {
 		}
 		public float distanceto(node n)
 		{
-			//calculates distance to the next node node
-			return Vector2.Distance (new Vector2 (x, y), new Vector2 (n.x, n.y));
+			//calculates the distance
+			Vector2 dir = new Vector2(x , y) - new Vector2(n.x , n.y);
+			float length = dir.sqrMagnitude;
+			print("distance "+length);
+			//returns the distance as a float
+			return length;
+			
 		}
 	}
 }
