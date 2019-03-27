@@ -6,17 +6,9 @@ using System.Linq;
 using System;
 
 public class Pathfinding : MonoBehaviour {
-	#region Singleton
+	
 	public static Pathfinding instance;
-	private void Awake()
-	{
-		if (instance != null)
-		{
-			Debug.LogWarning("DUPLICATE PATHFINDING");
-		}
-		instance = this;
-	}
-	#endregion
+
 	public Tilemap tilemap;
 	public Grid tgrid;
 	node[,] nodegraph;
@@ -28,22 +20,28 @@ public class Pathfinding : MonoBehaviour {
 	public Vector3[] points;
 	public LineGenerator linegen;
 
-	void Start () {
+	private void Awake()
+	{
+		if (instance != null)
+		{
+			Debug.LogWarning("DUPLICATE PATHFINDING");
+		}
+		instance = this;
 		player = GameObject.FindGameObjectWithTag("Player");
-		player.GetComponent<PlayerController> ().pf = this;
+		player.GetComponent<PlayerController>().pf = this;
 
 		//caches the players postion
 		playerpos = player.transform.position;
-		tilemap = GetComponent<Tilemap> ();
+		tilemap = GetComponent<Tilemap>();
 
-		createnodes ();
+		createnodes();
 	}
 	
 	void Update ()
 	{
 
 	}
-	public Vector2Int getttile()
+	public Vector2Int getttileatmouse()
 	{
 
 		Vector3 mouseworldpos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
@@ -57,6 +55,15 @@ public class Pathfinding : MonoBehaviour {
 	public Vector2Int getplayertile()
 	{
 		return new Vector2Int(tilemap.WorldToCell(playerpos).x - tilemap.origin.x , tilemap.WorldToCell(playerpos).y - tilemap.origin.y);
+	}
+
+	public node GetNode(Vector3 pos)
+	{
+		Vector3Int coord = tilemap.WorldToCell(pos);
+
+		coord.x = (int)Math.Floor(tilemap.GetCellCenterWorld(coord).x) + Mathf.Abs(tilemap.origin.x);
+		coord.y = (int)Math.Floor(tilemap.GetCellCenterWorld(coord).y) + Mathf.Abs(tilemap.origin.y);
+		return nodegraph[coord.x,coord.y];
 	}
 
 	public void updateplayerpos()
@@ -241,46 +248,59 @@ public class Pathfinding : MonoBehaviour {
 		
 	}
 
-	public	class node 
+	public class node
 	{
 		public List<node> neighbours;
 		public int x;
 		public int y;
-		public int movecost(Tilemap tilemap, Vector3Int tilepos)
+		public int movecost(Tilemap tilemap , Vector3Int tilepos)
 		{
 			//get the name of the tile and returns an int depending on what tile it picked
-			if (tilemap.HasTile (tilepos)) {
-				if (tilemap.GetTile (tilepos).name == "GrassTile") {
+			if (tilemap.HasTile(tilepos)) {
+				if (tilemap.GetTile(tilepos).name == "GrassTile") {
 					return (1);
 				} else
-					return(2);
+					return (2);
 			} else
 				return (2);
 		}
-		public bool walkable(Tilemap tilemap, Vector3Int tilepos)
+		public bool walkable(Tilemap tilemap , Vector3Int tilepos)
 		{
 			//same as movecost but determines if a tile is walkable
-			if (tilemap.HasTile (tilepos)) {
-				if (tilemap.GetTile (tilepos).name == "GrassTile") {
+			if (tilemap.HasTile(tilepos)) {
+				if (tilemap.GetTile(tilepos).name == "GrassTile") {
 					return (true);
 				} else
-					return(false);
+					return (false);
 			} else
 				return (false);
 		}
 		public node()
 		{
-			neighbours = new List<node> ();
+			neighbours = new List<node>();
 		}
 		public float distanceto(node n)
 		{
 			//calculates the distance
 			Vector2 dir = new Vector2(x , y) - new Vector2(n.x , n.y);
 			float length = dir.sqrMagnitude;
-			print("distance "+length);
+			print("distance " + length);
 			//returns the distance as a float
 			return length;
-			
+
+		}
+		private bool Occupied;
+		public bool occupied
+		{
+			get
+			{
+				return Occupied;
+			}
+			set
+			{
+				Occupied = value;
+				//print("occupied" + x + " " + y);
+			}
 		}
 	}
 }

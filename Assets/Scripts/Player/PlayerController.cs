@@ -16,6 +16,7 @@ public class PlayerController : MonoBehaviour
 			return Movement;
 		}
 	}
+	public bool turn;
     public Playerinformation playerinfo;
 	public GameObject UI;
 	bool movingPaused;
@@ -32,6 +33,9 @@ public class PlayerController : MonoBehaviour
 		canAttack = true;
 
 		targetpos = new Vector2Int(-1 , -1);
+
+		Pathfinding.node currentnode = Pathfinding.instance.GetNode(transform.position);
+		currentnode.occupied = true;
 	}
 	public void playerturn()
 	{
@@ -56,13 +60,13 @@ public class PlayerController : MonoBehaviour
 		if (settingsmanager.instance.LeftMouseButton() && settingsmanager.instance.Clicked() == Pathfinding.instance.tilemap.gameObject)
 		{
             //print("test");
-			if (targetpos == Pathfinding.instance.getttile())
+			if (targetpos == Pathfinding.instance.getttileatmouse())
 			{
 				print("same");
 			}
 			else
 			{
-				targetpos = Pathfinding.instance.getttile();
+				targetpos = Pathfinding.instance.getttileatmouse();
 				print("different");
                 // call pathfinding funftion
 				Pathfinding.instance.playerpath(targetpos.x , targetpos.y);
@@ -99,6 +103,12 @@ public class PlayerController : MonoBehaviour
 				Pathfinding.instance.updateplayerpos();
 				yield break;
 			}
+
+			if (checknexttile(currentpath[1]))
+			{
+				currentpath = null;
+				yield break;
+			}
 			while (moveper < 1 && Movement > 0)
 			{
 				transform.position = Vector2.Lerp(new Vector2(currentpath[0].x,currentpath[0].y),new Vector3(currentpath[1].x,currentpath[1].y),moveper);
@@ -129,11 +139,19 @@ public class PlayerController : MonoBehaviour
 		//print("test");
 		yield break;
 	}
+
+	bool checknexttile(Pathfinding.node tile)
+	{
+		if (tile.occupied)
+			return true;
+		else
+			return false;
+	}
 	void playerAttack()
 	{
 		if (canAttack && Movement > 0)
 		{
-			Vector2Int clickedtile = Pathfinding.instance.getttile();
+			Vector2Int clickedtile = Pathfinding.instance.getttileatmouse();
 			print(clickedtile.x + " " + clickedtile.y);
 			float distance = Pathfinding.instance.getTileDistance(clickedtile.x , clickedtile.y);
 			if (distance <= attackDistance)

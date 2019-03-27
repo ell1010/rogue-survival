@@ -16,6 +16,8 @@ public class EnemyBase : MonoBehaviour {
 	// Use this for initialization
 	public virtual void Start () {
 		player = GameObject.FindGameObjectWithTag("Player");
+		Pathfinding.node currentnode = Pathfinding.instance.GetNode(transform.position);
+		currentnode.occupied = true;
 		turnmanager.instance.enemydostuff += startturn;
 	}
 	

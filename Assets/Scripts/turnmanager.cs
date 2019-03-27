@@ -36,6 +36,7 @@ public class turnmanager : MonoBehaviour {
 			case TurnStates.PlayerTurn:
 				{
 					player.GetComponent<PlayerController>().playerturn();
+
 				}
 			break;
 			case TurnStates.EnemyTurn:
@@ -46,7 +47,7 @@ public class turnmanager : MonoBehaviour {
 			break;
 			case TurnStates.NoCombat:
 				{
-
+					player.GetComponent<PlayerController>().playerturn();
 				}
 			break;
 			default:
