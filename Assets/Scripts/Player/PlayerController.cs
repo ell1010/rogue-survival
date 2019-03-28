@@ -62,7 +62,7 @@ public class PlayerController : MonoBehaviour
             //print("test");
 			if (targetpos == Pathfinding.instance.getttileatmouse())
 			{
-				print("same");
+				//print("same");
 			}
 			else
 			{

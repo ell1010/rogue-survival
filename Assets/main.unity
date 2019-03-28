@@ -660,7 +660,7 @@ MonoBehaviour:
     rgba: 16731999
   canattack:
     serializedVersion: 2
-    rgba: 0
+    rgba: 255
 --- !u!4 &460107742
 Transform:
   m_ObjectHideFlags: 0
