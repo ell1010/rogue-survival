@@ -45,60 +45,63 @@ public class PlayerController : MonoBehaviour
 	
 	void Update () 
 	{
-		if (currentpath != null) 
+		if (turnmanager.instance.CurrentState == turnmanager.TurnStates.PlayerTurn)
 		{
-			int currnode = 0;
-			while (currnode < currentpath.Count - 1) 
+			if (currentpath != null)
 			{
-				Vector3 start = new Vector3(currentpath[currnode].x + 0.5f,currentpath[currnode].y + 0.5f);
-				Vector3 end =new Vector3(currentpath[currnode+1].x + 0.5f,currentpath[currnode+1].y + 0.5f);
-				Debug.DrawLine (start, end,Color.blue);	
-				currnode++;
+				int currnode = 0;
+				while (currnode < currentpath.Count - 1)
+				{
+					Vector3 start = new Vector3(currentpath[currnode].x + 0.5f , currentpath[currnode].y + 0.5f);
+					Vector3 end = new Vector3(currentpath[currnode + 1].x + 0.5f , currentpath[currnode + 1].y + 0.5f);
+					Debug.DrawLine(start , end , Color.blue);
+					currnode++;
+				}
 			}
-		}
 
-		if (settingsmanager.instance.LeftMouseButton() && settingsmanager.instance.Clicked() == Pathfinding.instance.tilemap.gameObject)
-		{
-            //print("test");
-			if (targetpos == Pathfinding.instance.getttileatmouse())
+			if (settingsmanager.instance.LeftMouseButton() && settingsmanager.instance.Clicked() == Pathfinding.instance.tilemap.gameObject)
 			{
-				//print("same");
+				//print("test");
+				if (targetpos == Pathfinding.instance.getttileatmouse())
+				{
+					//print("same");
+				}
+				else
+				{
+					targetpos = Pathfinding.instance.getttileatmouse();
+					//print("different");
+					// call pathfinding function
+					Pathfinding.instance.playerpath(targetpos.x , targetpos.y);
+				}
 			}
-			else
+			if (settingsmanager.instance.LeftMouseButtonUp())
 			{
-				targetpos = Pathfinding.instance.getttileatmouse();
-				print("different");
-                // call pathfinding funftion
-				Pathfinding.instance.playerpath(targetpos.x , targetpos.y);
+				moveplayer();
 			}
-		}
-		if (settingsmanager.instance.LeftMouseButtonUp())
-		{
-			moveplayer();
-		}
 
-		if (settingsmanager.instance.RightMouseButtonDown() && settingsmanager.instance.Clicked().CompareTag("Enemy")) 
-		{
-			playerAttack();
+			if (settingsmanager.instance.RightMouseButtonDown() && settingsmanager.instance.Clicked().CompareTag("Enemy"))
+			{
+				playerAttack();
+			}
 		}
 	}
 	public void moveplayer()
 	{
 		if(!movingPaused)
 		StartCoroutine (movetotile ());
-		print("pos" + transform.position);
+		//print("pos" + transform.position);
 	}
 	public IEnumerator movetotile()
 	{
 		float moveper = 0;
 		while (Movement > 0) {
-			print("movement" + Movement);
+			//print("movement" + Movement);
 			moveper = 0;
 			while (movingPaused)
 				yield return null;
 			if (currentpath == null || currentpath.Count < 1)
 			{
-				print("test");
+				//print("test");
 				//Pathfinding.instance.RemoveLinePosition();
 				Pathfinding.instance.updateplayerpos();
 				yield break;
@@ -109,9 +112,10 @@ public class PlayerController : MonoBehaviour
 				currentpath = null;
 				yield break;
 			}
+			currentpath[0].occupied = false;
 			while (moveper < 1 && Movement > 0)
 			{
-				transform.position = Vector2.Lerp(new Vector2(currentpath[0].x,currentpath[0].y),new Vector3(currentpath[1].x,currentpath[1].y),moveper);
+				transform.position = Vector2.Lerp(new Vector2(currentpath[0].x,currentpath[0].y),new Vector2(currentpath[1].x,currentpath[1].y),moveper);
 				moveper += Time.deltaTime * 1.5f;
 				//print("moving");
 				yield return null;
@@ -121,6 +125,7 @@ public class PlayerController : MonoBehaviour
             Movement -= (int)pf.costtotile(currentpath[0].x,currentpath[0].y,currentpath[1].x,currentpath[1].y);
 			transform.position = new Vector3(currentpath[1].x , currentpath[1].y , 0);
 			currentpath.RemoveAt (0);
+			currentpath[0].occupied = true;
 
 			if(currentpath.Count > 1)
 			Linegen.GetComponent<LineGenerator>().createline(currentpath);
@@ -158,6 +163,7 @@ public class PlayerController : MonoBehaviour
 			{
 				settingsmanager.instance.Clicked().GetComponent<EnemyBase>().takeDamage(attackDamage);
 				canAttack = false;
+				Movement--;
 			}
 			else
 				print(distance);

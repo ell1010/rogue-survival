@@ -69,13 +69,21 @@ public class Pathfinding : MonoBehaviour {
 	public void updateplayerpos()
 	{
 		playerpos = player.transform.position;
-		print(player.transform.position);
+		//print(player.transform.position);
 	}
 	
 	public float getTileDistance(int endx, int endy)
 	{
 		//print((tilemap.WorldToCell(player.transform.position).x) + " " + (tilemap.WorldToCell(player.transform.position).y));
 
+		return nodegraph[tilemap.WorldToCell(player.transform.position).x - tilemap.origin.x ,
+			tilemap.WorldToCell(player.transform.position).y - tilemap.origin.y].distanceto(nodegraph[endx , endy]);
+	}
+
+	public float enemyGetTileDistance(int endx, int endy)
+	{
+		endx -= tilemap.origin.x;
+		endy -= tilemap.origin.y;
 		return nodegraph[tilemap.WorldToCell(player.transform.position).x - tilemap.origin.x ,
 			tilemap.WorldToCell(player.transform.position).y - tilemap.origin.y].distanceto(nodegraph[endx , endy]);
 	}
@@ -160,16 +168,19 @@ public class Pathfinding : MonoBehaviour {
 
 		genpathto(playerposx , playerposy , endx, endy);
 		player.GetComponent<PlayerController>().currentpath = currentPath;
+		linegen.createline(currentPath);
 	}
 
 	public void enemypath(GameObject enemy)
 	{
+		//print("test");
 		currentPath = new List<node>();
 
 		int playerposx = tilemap.WorldToCell(playerpos).x + Mathf.Abs(tilemap.origin.x);
 		int playerposy = tilemap.WorldToCell(playerpos).y + Mathf.Abs(tilemap.origin.y);
-
+		//print("path");
 		genpathto(tilemap.WorldToCell(enemy.transform.position).x + Mathf.Abs(tilemap.origin.x) , tilemap.WorldToCell(enemy.transform.position).y + Mathf.Abs(tilemap.origin.y), playerposx, playerposy);
+		//print("pathset");
 		enemy.GetComponent<EnemyBase>().currentpath = currentPath;
 	}
 
@@ -217,17 +228,25 @@ public class Pathfinding : MonoBehaviour {
 			unvisited.Remove (u);
 			foreach (node v in u.neighbours) 
 			{
-				float alt = dist [u] + u.distanceto (v);
-				if (alt < dist [v]) 
+				if (!v.occupied || (v.x == playerpos.x && v.y == playerpos.y))
 				{
-					dist [v] = alt;
-					prev [v] = u;
+					float alt = dist[u] + u.distanceto(v);
+					if (alt < dist[v])
+					{
+						dist[v] = alt;
+						prev[v] = u;
+					}
 				}
+				else
+					print("occupied" + v.x + " " + v.y);
 			}
 		}
 		//breaks if there isnt a path
-		if (prev [target] == null) 
+		if (prev[target] == null)
+		{
+			print("null target");
 			return;
+		}
 		node curr = target;
 		//go through prev adding each one to the current path
 		while (curr != null) 
@@ -241,7 +260,7 @@ public class Pathfinding : MonoBehaviour {
 		//	print (curr);
         //reverses current path to get correct order
         currentPath.Reverse ();
-		linegen.createline(currentPath);
+		
 	}
 	void setPath()
 	{
@@ -284,12 +303,12 @@ public class Pathfinding : MonoBehaviour {
 			//calculates the distance
 			Vector2 dir = new Vector2(x , y) - new Vector2(n.x , n.y);
 			float length = dir.sqrMagnitude;
-			print("distance " + length);
+			//print("distance " + length);
 			//returns the distance as a float
 			return length;
 
 		}
-		private bool Occupied;
+		private bool Occupied = false;
 		public bool occupied
 		{
 			get

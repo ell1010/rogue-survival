@@ -53,7 +53,7 @@ public class LineGenerator : MonoBehaviour {
 		}
 		triangles = new List<int>();
 
-		print(line.Count);
+		//print(line.Count);
 		for (int i = 0; i < line.Count-1; i++)
 		{
 			if (i < pc.currentmovement || pc.currentmovement <= 0)
@@ -150,13 +150,13 @@ public class LineGenerator : MonoBehaviour {
 			{
 				vertices.Add(new Vector3((pos1.x + 0.5f) - (linewidth / 2) , (pos1.y + 0.5f) , -1));
 				vertices.Add(new Vector3((pos1.x + 0.5f) + (linewidth / 2) , (pos1.y + 0.5f) , -1));
-				print("normal");
+				//print("normal");
 			}
 			else if(pos1.y < pos2.y || pos1.y > pos3.y)
 			{
 				vertices.Add(new Vector3((pos1.x + 0.5f) + (linewidth / 2) , (pos1.y + 0.5f) , -1));
 				vertices.Add(new Vector3((pos1.x + 0.5f) - (linewidth / 2) , (pos1.y + 0.5f) , -1));
-				print("flipped");
+				//print("flipped");
 			}
 		}
 		else if (pos1.y == pos2.y && pos1.y == pos3.y)
@@ -165,15 +165,15 @@ public class LineGenerator : MonoBehaviour {
 			{
 				vertices.Add(new Vector3((pos1.x + 0.5f) , (pos1.y + 0.5f) - (linewidth / 2) , -1));
 				vertices.Add(new Vector3((pos1.x + 0.5f) , (pos1.y + 0.5f) + (linewidth / 2) , -1));
-                print("y same going right");
+                //print("y same going right");
 			}
 			else if(pos1.x > pos2.x || pos1.x < pos3.x)
 			{
 				vertices.Add(new Vector3((pos1.x + 0.5f) , (pos1.y + 0.5f) + (linewidth / 2) , -1));
 				vertices.Add(new Vector3((pos1.x + 0.5f) , (pos1.y + 0.5f) - (linewidth / 2) , -1));
-                print("y same going left");
+                //print("y same going left");
 			}
-            print("y same");
+            //print("y same");
 		}
 		else
 		{
@@ -183,13 +183,13 @@ public class LineGenerator : MonoBehaviour {
                 {
                     vertices.Add(new Vector3((pos1.x + 0.5f) + (linewidth / 2), (pos1.y + 0.5f) - (linewidth / 2), -1));
                     vertices.Add(new Vector3((pos1.x + 0.5f) - (linewidth / 2), (pos1.y + 0.5f) + (linewidth / 2), -1));
-                    print("x up y up");
+                    //print("x up y up");
                 }
                 else if(pos1.y > pos2.y | pos1.y < pos3.y)
                 {
                     vertices.Add(new Vector3((pos1.x + 0.5f) - (linewidth / 2), (pos1.y + 0.5f) - (linewidth / 2), -1));
                     vertices.Add(new Vector3((pos1.x + 0.5f) + (linewidth / 2), (pos1.y + 0.5f) + (linewidth / 2), -1));
-                    print("x up y down");
+                    //print("x up y down");
                 }
             }
             else if(pos1.x > pos2.x || pos1.x < pos3.x)
@@ -198,13 +198,13 @@ public class LineGenerator : MonoBehaviour {
                 {
                     vertices.Add(new Vector3((pos1.x + 0.5f) + (linewidth / 2), (pos1.y + 0.5f) + (linewidth / 2), -1));
                     vertices.Add(new Vector3((pos1.x + 0.5f) - (linewidth / 2), (pos1.y + 0.5f) - (linewidth / 2), -1));
-                    print("x down y up");
+                    //print("x down y up");
                 }
                 else if (pos1.y > pos2.y | pos1.y < pos3.y)
                 {
                     vertices.Add(new Vector3((pos1.x + 0.5f) - (linewidth / 2), (pos1.y + 0.5f) + (linewidth / 2), -1));
                     vertices.Add(new Vector3((pos1.x + 0.5f) + (linewidth / 2), (pos1.y + 0.5f) - (linewidth / 2), -1));
-                    print("x down y down");
+                    //print("x down y down");
                 }
             }
 			//if (pos1.x < pos2.x || pos1.y > pos2.y)
@@ -219,7 +219,7 @@ public class LineGenerator : MonoBehaviour {
 			//	vertices.Add(new Vector3((pos1.x + 0.5f) - (linewidth / 2) , (pos1.y + 0.5f) - (linewidth / 2) , -1));
    //             print("huh");
 			//}
-            Debug.LogError("no vertices set");
+            //Debug.LogError("no vertices set");
 		}
 	}
 
