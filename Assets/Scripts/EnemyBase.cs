@@ -75,7 +75,7 @@ public class EnemyBase : MonoBehaviour {
 		{
 			changestate(enemystates.move);
 		}
-		else if (distance < range)
+		else if (distance <= range)
 		{
 			changestate(enemystates.attack);
 		}
@@ -117,6 +117,7 @@ public class EnemyBase : MonoBehaviour {
 			
 			yield return new WaitForSeconds(0.02f);
 		}
+        print("got here" + gameObject.name);
 		endturn();
 		yield break;
 	}

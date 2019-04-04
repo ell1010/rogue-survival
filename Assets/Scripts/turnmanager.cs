@@ -88,7 +88,7 @@ public class turnmanager : MonoBehaviour {
 
 	void enemyturn()
 	{
-		print(enemies.Count);
+		//print(enemies.Count);
 		if (enemycount < enemies.Count)
 		{
 			enemies[enemycount].GetComponent<EnemyBase>().startturn();

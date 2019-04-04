@@ -237,8 +237,8 @@ public class Pathfinding : MonoBehaviour {
 						prev[v] = u;
 					}
 				}
-				else
-					print("occupied" + v.x + " " + v.y);
+				//else
+				//	print("occupied" + v.x + " " + v.y);
 			}
 		}
 		//breaks if there isnt a path
