@@ -16,7 +16,7 @@ public class PlayerInventory : MonoBehaviour {
 	}
 	#endregion
     public List<InvItems> invItems = new List<InvItems>();
-	public delegate void OnItemChanged();
+	public delegate void OnItemChanged(bool added);
 	public OnItemChanged onItemChangedCallback;
 	public int space = 20;
 	public bool Add(Item Iitem)
@@ -39,7 +39,7 @@ public class PlayerInventory : MonoBehaviour {
 			invItems[(int)index].amount++;
 		}
 		if(onItemChangedCallback != null)
-			onItemChangedCallback.Invoke();
+			onItemChangedCallback.Invoke(true);
 		return true;
 	}
 	public void Remove(Item Iitem)
@@ -51,7 +51,27 @@ public class PlayerInventory : MonoBehaviour {
 		else if (invItems[index].amount == 1)
 			invItems.Remove(invItems[index]);
 		if (onItemChangedCallback != null)
-			onItemChangedCallback.Invoke();
+			onItemChangedCallback.Invoke(false);
+	}
+
+	public void Removeslot(int slotno)
+	{
+		int index = invItems.FindIndex(x => x.uislot == slotno);
+		if (invItems[index].amount > 1)
+			invItems[index].amount--;
+		else if (invItems[index].amount == 1)
+			invItems.Remove(invItems[index]);
+
+	}
+
+	public void uiDelete()
+	{
+
+	}
+
+	public void equip()
+	{
+
 	}
 
 	[System.Serializable]
@@ -59,5 +79,6 @@ public class PlayerInventory : MonoBehaviour {
     {
 		public int amount;
 		public Item Item;
+		public int uislot = 33;
     }
 }

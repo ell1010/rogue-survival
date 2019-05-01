@@ -9,6 +9,7 @@ public class ItemTextbox : Textboxbase {
 	// Use this for initialization
 	public override void Start () {
 		base.Start ();
+		print("awake");
 	}
 	/// <summary>
 	/// Update is called every frame, if the MonoBehaviour is enabled.

@@ -17,7 +17,6 @@ public class PlayerController : MonoBehaviour
 		}
 	}
 	public bool turn;
-    public Playerinformation playerinfo;
 	public GameObject UI;
 	bool movingPaused;
 	public Item itemAtFeet;
@@ -173,7 +172,7 @@ public class PlayerController : MonoBehaviour
 	{
 		itemAtFeet = pickup;
 		tempItem = toucheditem;
-		UI.transform.GetChild (1).gameObject.SetActive (true);
+		UI.transform.GetChild (1).GetComponent<ItemTextbox>().starttext("Would you like to pick up " + itemAtFeet.name + "?");
 		movingPaused = true;
 	}
 	public void playergetitem()
@@ -192,6 +191,10 @@ public class PlayerController : MonoBehaviour
 	{
 		movingPaused = false;
 	}
+    public void playertakedamage(int damage)
+    {
+		//health = Mathf.Floor((damage/defence)+1)
+    }
 	void OnTriggerEnter2D(Collider2D col)
 	{
 		//print ("hello");

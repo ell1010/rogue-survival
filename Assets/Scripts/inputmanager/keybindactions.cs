@@ -7,5 +7,6 @@
 	down,
 	right,
 	pause,
-	attack
+	attack,
+    inventory
 }

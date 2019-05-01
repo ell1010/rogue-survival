@@ -72,8 +72,17 @@ public class settingsmanager : MonoBehaviour {
 	{
 		return Input.GetKeyDown (keybinds.keybinds [(int)KeybindActions.down].keyCode);
 	}
+    public bool pausepressed()
+    {
+        return Input.GetKeyDown(keybinds.keybinds[(int)KeybindActions.pause].keyCode);
+    }
 
-	public GameObject Clicked()
+    public bool inventorypressed()
+    {
+        return Input.GetKeyDown(keybinds.keybinds[(int)KeybindActions.inventory].keyCode);
+    }
+
+    public GameObject Clicked()
 	{
 		if (LeftMouseButtonDown() || RightMouseButtonDown() || LeftMouseButton())
 		{
@@ -87,6 +96,7 @@ public class settingsmanager : MonoBehaviour {
 			GraphicsRaycaster.Raycast(pointerevent , results);
 			if (results.Count > 0)
 			{
+                print(results[0].gameObject);
 				return results[0].gameObject;
 			}
 			else if (results.Count == 0)
@@ -96,7 +106,7 @@ public class settingsmanager : MonoBehaviour {
 				RaycastHit2D hit = Physics2D.Raycast(ray.origin , ray.direction,10, layermask);
 				if (hit.transform != null)
 				{
-					//print("clicked" + hit);
+					print("clicked" + hit);
 					return hit.transform.gameObject;
 				}
 				else

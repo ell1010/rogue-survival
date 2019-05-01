@@ -133,7 +133,6 @@ public class EnemyBase : MonoBehaviour {
 		float distance = Pathfinding.instance.enemyGetTileDistance((int)Math.Floor(transform.position.x) , (int)Math.Floor(transform.position.y));
 		if (distance <= range)
 		{
-			
 			return true;
 		}
 		else
@@ -141,7 +140,8 @@ public class EnemyBase : MonoBehaviour {
 	}
 	public virtual void enemyattack()
 	{
-
+        player.GetComponent<PlayerController>().playertakedamage(attack);
+        endturn();
 	}
 
 	public virtual void enemydead()
