@@ -13,6 +13,10 @@ public class ItemBase : MonoBehaviour {
 	void Update () {
 		
 	}
+    public void use()
+    {
+
+    }
 	
     private void OnTriggerEnter2D(Collider2D collision)
     {
