@@ -49,6 +49,10 @@ public class saveandload : MonoBehaviour {
             JsonUtility.FromJsonOverwrite(objects[0], keybinds);
             JsonUtility.FromJsonOverwrite(objects[1], playerinfo);
             savefile.Close();
-        }
+		}
+		else
+		{
+			Save();
+		}
     }
 }

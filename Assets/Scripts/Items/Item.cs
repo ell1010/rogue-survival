@@ -8,12 +8,12 @@ public class Item : ScriptableObject {
 	public Sprite icon = null;
 	public enum type
 	{
+		boots,
+		leggings,
+		chestplate,
+		helmet,
 		weapon,
 		usable,
-		helmet,
-		chestplate,
-		leggings,
-		boots
 	}
 	public type itemtype;
 	bool equipped;
@@ -66,5 +66,10 @@ public class Item : ScriptableObject {
 		{
 
 		}
+	}
+
+	public virtual void useItem()
+	{
+
 	}
 }

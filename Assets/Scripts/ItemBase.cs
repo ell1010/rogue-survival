@@ -13,7 +13,7 @@ public class ItemBase : MonoBehaviour {
 	void Update () {
 		
 	}
-    public void use()
+    public virtual void use()
     {
 
     }

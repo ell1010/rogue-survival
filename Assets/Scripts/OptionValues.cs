@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 [CreateAssetMenu(fileName = "OptionValues", menuName = "Options")]
 public class OptionValues : ScriptableObject {
-    public Vector2 resolution;
+    public Vector2Int resolution;
     public bool fullscreen;
     public float mainvol;
     public float effvol;

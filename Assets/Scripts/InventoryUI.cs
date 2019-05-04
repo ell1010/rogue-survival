@@ -7,12 +7,18 @@ using System.Linq;
 public class InventoryUI : MonoBehaviour {
     public PlayerInventory inv;
 	public List<inventoryslot> islots = new List<inventoryslot>();
+	public List<inventoryslot> eslots = new List<inventoryslot>();
 	// Use this for initialization
 	public void Start () {
-        inv = PlayerInventory.instance;
-        inv.onItemChangedCallback += UpdateUI;
+        
 	}
-	
+	public void setupInvUI()
+	{
+		inv = PlayerInventory.instance;
+		inv.onItemChangedCallback += UpdateUI;
+		setupUseItem();
+	}
+
 	// Update is called once per frame
 	void Update () {
 		
@@ -39,6 +45,15 @@ public class InventoryUI : MonoBehaviour {
 		inv.invItems[i].uislot = i;
 		
     }
+	
+	public void setupUseItem()
+	{
+		for (int i = 0; i < transform.GetChild(0).childCount; i++)
+		{
+			int index = i;
+			islots[i].slotGO.transform.GetChild(0).GetComponent<Button>().onClick.AddListener(delegate { useitem(index); });
+		}
+	}
 
 	public void itemDeleted(int slotno)
 	{
@@ -56,18 +71,45 @@ public class InventoryUI : MonoBehaviour {
 		//inv.Remove(inv.invItems[invindex].Item);
 		//print("deleted");
 	}
-
+	void useitem(int index)
+	{
+		print(index);
+		if(inv.invItems[index].Item.itemtype != Item.type.usable)
+		{
+			equip(index);
+		}
+		inv.invItems[index].Item.useItem();
+	}
     
+	void equip(int index)
+	{
+		print((int)inv.invItems[inv.getindex(index)].Item.itemtype);
+		eslots[(int)inv.invItems[inv.getindex(index)].Item.itemtype].slotIcon.sprite = islots[index].slotIcon.sprite;
+		eslots[(int)inv.invItems[inv.getindex(index)].Item.itemtype].slotIcon.enabled = true;
+		eslots[(int)inv.invItems[inv.getindex(index)].Item.itemtype].occupied = true;
+		islots[index].slotIcon.sprite = null;
+		islots[index].slotIcon.enabled = false;
+		islots[index].deleteSlot.GetComponent<Button>().interactable = false;
+		islots[index].slotAmount.text = " ";
+		islots[index].occupied = false;
+		inv.invItems[index].uislot = islots.Count + (int)inv.invItems[inv.getindex(index)].Item.itemtype;
+
+	}
+
     void UpdateSlot(GameObject slot)
     {
 
     }
 	public void initslot()
 	{
-		for (int i = 0; i < transform.GetChild(0).childCount; i++)
+		for (int i = 0; i < transform.GetChild(0).GetChild(0).childCount; i++)
 		{
-			islots[i].init(transform.GetChild(0).GetChild(i).gameObject);
+			islots[i].init(transform.GetChild(0).GetChild(0).GetChild(i).gameObject);
 			//islots[i].deleteSlot.GetComponent<Button>().onClick.AddListener(itemDeleted);
+		}
+		for (int i = 0; i < transform.GetChild(0).GetChild(1).childCount; i++)
+		{
+			eslots[i].init(transform.GetChild(0).GetChild(1).GetChild(i).gameObject);
 		}
 		
 	}

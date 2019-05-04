@@ -9,7 +9,7 @@ public class UIManager : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         set = settingsmanager.instance;
-		invpanel.GetComponent<InventoryUI>().Start();
+		invpanel.GetComponent<InventoryUI>().setupInvUI();
 		//PlayerInventory.instance.onItemChangedCallback += invpanel.GetComponent<InventoryUI>().UpdateUI;
 	}
 	

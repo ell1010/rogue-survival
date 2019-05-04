@@ -64,6 +64,12 @@ public class PlayerInventory : MonoBehaviour {
 
 	}
 
+	public int getindex(int slotno)
+	{
+		int index = invItems.FindIndex(x => x.uislot == slotno);
+		return index;
+	}
+
 	public void uiDelete()
 	{
 
