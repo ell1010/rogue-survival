@@ -9,6 +9,7 @@ public class saveandload : MonoBehaviour {
     
     public Keybindings keybinds;
     public Playerinformation playerinfo;
+	public OptionValues optionvalues;
     // Use this for initialization
     void Start () {
         //Load();
@@ -22,7 +23,7 @@ public class saveandload : MonoBehaviour {
 	public void quittomenu()
 	{
 		Save();
-		SceneManager.LoadScene(0);
+		SceneManager.LoadScene(1);
 	}
 
     public void Save()
@@ -36,6 +37,7 @@ public class saveandload : MonoBehaviour {
         List<string> objects = new List<string>();
         objects.Add(JsonUtility.ToJson(keybinds));
         objects.Add(JsonUtility.ToJson(playerinfo));
+		objects.Add(JsonUtility.ToJson(optionvalues));
         //var json = JsonUtility.ToJson(objects);
         bf.Serialize(savefile, objects);
         savefile.Close();
@@ -55,6 +57,7 @@ public class saveandload : MonoBehaviour {
             print(objects.Count);
             JsonUtility.FromJsonOverwrite(objects[0], keybinds);
             JsonUtility.FromJsonOverwrite(objects[1], playerinfo);
+			JsonUtility.FromJsonOverwrite(objects[2], optionvalues);
             savefile.Close();
 		}
 		else
