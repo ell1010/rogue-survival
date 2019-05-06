@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class saveandload : MonoBehaviour {
     
@@ -10,12 +11,18 @@ public class saveandload : MonoBehaviour {
     public Playerinformation playerinfo;
     // Use this for initialization
     void Start () {
-        Load();
+        //Load();
 	}
 	
 	// Update is called once per frame
 	void Update () {
 		
+	}
+
+	public void quittomenu()
+	{
+		Save();
+		SceneManager.LoadScene(0);
 	}
 
     public void Save()

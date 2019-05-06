@@ -19,6 +19,8 @@ public class PlayerInventory : MonoBehaviour {
 	public delegate void OnItemChanged(bool added);
 	public OnItemChanged onItemChangedCallback;
 	public int space = 20;
+	public Item[] equipped = new Item[5];
+	public Playerinformation pinfo;
 	public bool Add(Item Iitem)
 	{
 		if (invItems.Count >= space)
@@ -70,12 +72,22 @@ public class PlayerInventory : MonoBehaviour {
 		return index;
 	}
 
-	public void uiDelete()
+	public void calcstats()
+	{
+		for (int i = 0; i < equipped.Length; i++)
+		{
+			pinfo.Attack += equipped[i].itemstats[0];
+			pinfo.Defence += equipped[i].itemstats[2];
+			pinfo.Range += equipped[i].itemstats[1];
+		}
+	}
+
+	void uiDelete()
 	{
 
 	}
 
-	public void equip()
+	void equip()
 	{
 
 	}

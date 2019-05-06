@@ -83,17 +83,31 @@ public class InventoryUI : MonoBehaviour {
     
 	void equip(int index)
 	{
-		print((int)inv.invItems[inv.getindex(index)].Item.itemtype);
-		eslots[(int)inv.invItems[inv.getindex(index)].Item.itemtype].slotIcon.sprite = islots[index].slotIcon.sprite;
-		eslots[(int)inv.invItems[inv.getindex(index)].Item.itemtype].slotIcon.enabled = true;
-		eslots[(int)inv.invItems[inv.getindex(index)].Item.itemtype].occupied = true;
-		islots[index].slotIcon.sprite = null;
-		islots[index].slotIcon.enabled = false;
-		islots[index].deleteSlot.GetComponent<Button>().interactable = false;
-		islots[index].slotAmount.text = " ";
-		islots[index].occupied = false;
-		inv.invItems[index].uislot = islots.Count + (int)inv.invItems[inv.getindex(index)].Item.itemtype;
-
+		int eindex = (int)inv.invItems[inv.getindex(index)].Item.itemtype;
+		if (eslots[eindex].occupied)
+		{
+			Sprite esprite = eslots[eindex].slotIcon.sprite;
+			int sindex = inv.getindex(islots.Count + eindex);
+			eslots[eindex].slotIcon.sprite = islots[index].slotIcon.sprite;
+			islots[index].slotIcon.sprite = esprite;
+			inv.invItems[sindex].uislot = index;
+			inv.invItems[index].uislot = islots.Count + eindex;
+		}
+		else
+		{
+			eslots[eindex].slotIcon.sprite = islots[index].slotIcon.sprite;
+			eslots[eindex].slotIcon.enabled = true;
+			eslots[eindex].occupied = true;
+			islots[index].slotIcon.sprite = null;
+			islots[index].slotIcon.enabled = false;
+			islots[index].deleteSlot.GetComponent<Button>().interactable = false;
+			islots[index].slotAmount.text = " ";
+			islots[index].occupied = false;
+			inv.invItems[index].uislot = islots.Count + eindex;
+		}
+		//print((int)inv.invItems[inv.getindex(index)].Item.itemtype);
+		inv.calcstats();
+		
 	}
 
     void UpdateSlot(GameObject slot)

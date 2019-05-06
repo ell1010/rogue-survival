@@ -5,9 +5,9 @@ using UnityEditor;
 
 public class PlayerController : MonoBehaviour 
 {
+	public Playerinformation pinfo;
 	public List<Pathfinding.node> currentpath = null;
 	public Pathfinding pf;
-	public int startmovement = 3;
 	int Movement = 3;
 	public int currentmovement
 	{
@@ -22,8 +22,6 @@ public class PlayerController : MonoBehaviour
 	public Item itemAtFeet;
 	GameObject tempItem;
 	bool canAttack;
-	int attackDamage = 2;
-	int attackDistance = 3;
 	Vector2Int targetpos;
 	public GameObject Linegen;
 
@@ -35,10 +33,25 @@ public class PlayerController : MonoBehaviour
 
 		Pathfinding.node currentnode = Pathfinding.instance.GetNode(transform.position);
 		currentnode.occupied = true;
+		checkplayerinfo();
+	}
+
+	void checkplayerinfo()
+	{
+		if (pinfo.PlayerLevel == 0)
+		{
+			pinfo.PlayerLevel = 1;
+			pinfo.experience = 0;
+			pinfo.Health = 20;
+			pinfo.Attack = 2;
+			pinfo.Defence = 0;
+			pinfo.Range = 1;
+			pinfo.movement = 3;
+		}
 	}
 	public void playerturn()
 	{
-		Movement = startmovement;
+		Movement = pinfo.movement;
 		canAttack = true;
 	}
 	
@@ -158,9 +171,9 @@ public class PlayerController : MonoBehaviour
 			Vector2Int clickedtile = Pathfinding.instance.getttileatmouse();
 			print(clickedtile.x + " " + clickedtile.y);
 			float distance = Pathfinding.instance.getTileDistance(clickedtile.x , clickedtile.y);
-			if (distance <= attackDistance)
+			if (distance <= pinfo.Range)
 			{
-				settingsmanager.instance.Clicked().GetComponent<EnemyBase>().takeDamage(attackDamage);
+				settingsmanager.instance.Clicked().GetComponent<EnemyBase>().takeDamage(pinfo.Attack);
 				canAttack = false;
 				Movement--;
 			}
@@ -191,9 +204,20 @@ public class PlayerController : MonoBehaviour
 	{
 		movingPaused = false;
 	}
+
+	void experiencegain(int xp)
+	{
+		int xptonext = pinfo.PlayerLevel * 12;
+		pinfo.experience += xp;
+		if (pinfo.experience >= xptonext)
+		{
+			pinfo.experience -= xptonext;
+			pinfo.levelup();
+		}
+	}
     public void playertakedamage(int damage)
     {
-		//health = Mathf.Floor((damage/defence)+1)
+		pinfo.Health = (int)Mathf.Floor((damage / pinfo.Defence) + 1);
     }
 	void OnTriggerEnter2D(Collider2D col)
 	{

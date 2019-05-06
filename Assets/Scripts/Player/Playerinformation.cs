@@ -7,21 +7,35 @@ public class Playerinformation : ScriptableObject {
 
     public string PlayerName;
     public int PlayerLevel;
-    [System.Serializable]
-    public class PlayerInventory
-    {
-        public GameObject Item;
-        public int ItemAmount;
-    }
+	public int experience;
+	public int Health;
+	public int Attack;
+	public int Defence;
+	public int Range;
+	public int movement;
+
+
+	public void levelup()
+	{
+		int x = Random.Range(0, 1);
+		switch (x)
+		{
+			case 0: Attack++;
+				break;
+			case 1: Defence++;
+				break;
+		}
+		Health += 2;
+		PlayerLevel++;
+	}
+
+
     public PlayerInventory[] playerinv;
-	// Use this for initialization
-	void Start () {
-		
+
+	[System.Serializable]
+	public class PlayerInventory
+	{
+		public GameObject Item;
+		public int ItemAmount;
 	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
-    
 }
