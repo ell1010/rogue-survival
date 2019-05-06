@@ -43,6 +43,7 @@ public class PlayerController : MonoBehaviour
 			pinfo.PlayerLevel = 1;
 			pinfo.experience = 0;
 			pinfo.Health = 20;
+			pinfo.maxhealth = 20;
 			pinfo.Attack = 2;
 			pinfo.Defence = 0;
 			pinfo.Range = 1;

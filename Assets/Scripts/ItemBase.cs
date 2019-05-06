@@ -5,8 +5,8 @@ using UnityEngine;
 public class ItemBase : MonoBehaviour {
 	public Item item;
 	// Use this for initialization
-	void Start () {
-		
+	public virtual void Start () {
+		GetComponent<SpriteRenderer>().sprite = item.icon;
 	}
 	
 	// Update is called once per frame

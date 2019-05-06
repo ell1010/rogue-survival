@@ -9,6 +9,7 @@ public class Playerinformation : ScriptableObject {
     public int PlayerLevel;
 	public int experience;
 	public int Health;
+	public int maxhealth;
 	public int Attack;
 	public int Defence;
 	public int Range;
@@ -26,6 +27,7 @@ public class Playerinformation : ScriptableObject {
 				break;
 		}
 		Health += 2;
+		maxhealth += 2;
 		PlayerLevel++;
 	}
 

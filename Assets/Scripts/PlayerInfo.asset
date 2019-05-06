@@ -12,9 +12,10 @@ MonoBehaviour:
   m_Name: PlayerInfo
   m_EditorClassIdentifier: 
   PlayerName: ewojfwhpoiqeranogei
-  PlayerLevel: 0
+  PlayerLevel: 1
   experience: 0
   Health: 20
+  maxhealth: 20
   Attack: 2
   Defence: 0
   Range: 1

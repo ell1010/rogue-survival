@@ -5,10 +5,11 @@ using UnityEngine;
 public class hpitem : ItemBase {
 
 	// Use this for initialization
-	void Start () {
-		
+	public override void Start()
+	{
+		base.Start();
 	}
-	
+
 	// Update is called once per frame
 	void Update () {
 		

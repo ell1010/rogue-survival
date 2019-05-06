@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour {
 	public Playerinformation pinfo;
@@ -9,6 +10,8 @@ public class UIManager : MonoBehaviour {
     public GameObject invpanel;
     settingsmanager set = settingsmanager.instance;
 	public GameObject nameinput;
+	public GameObject hpbar;
+	public GameObject xpbar;
 	// Use this for initialization
 	void Start () {
         set = settingsmanager.instance;
@@ -23,8 +26,6 @@ public class UIManager : MonoBehaviour {
 		{
 			nameinput.SetActive(true);
 		}
-		else
-			print(pinfo.PlayerName);
 	}
 
 	public void nameInput(string input)
@@ -40,5 +41,8 @@ public class UIManager : MonoBehaviour {
             pausepanel.SetActive(!pausepanel.activeInHierarchy);
         if (set.inventorypressed())
             invpanel.SetActive(!invpanel.activeInHierarchy);
+
+		hpbar.transform.GetComponent<Image>().fillAmount = (pinfo.Health / pinfo.maxhealth);
+		xpbar.GetComponent<Image>().fillAmount = (pinfo.experience / (pinfo.PlayerLevel * 12));
 	}
 }

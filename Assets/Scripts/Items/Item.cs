@@ -30,37 +30,6 @@ public class Item : ScriptableObject {
 	{
 		get
 		{
-			//switch (itemtype)
-			//{
-			//	case type.weapon:
-			//		{
-			//			return new int[] { damage, range, durability };
-			//		}
-			//	case type.usable:
-			//		{
-
-			//		}
-			//	break;
-			//	case type.helmet:
-			//		{
-			//			return new int[] { defence , durability };
-			//		}
-			//	case type.chestplate:
-			//		{
-			//			return new int[] { defence , durability };
-			//		}
-			//	case type.leggings:
-			//		{
-			//			return new int[] { defence , durability };
-			//		}
-			//	case type.boots:
-			//		{
-			//			return new int[] { defence , durability };
-			//		}
-			//	default:
-			//	break;
-			//}
-			//return null;
 			return new int[] {damage, range, defence, durability };
 		}
 		set
