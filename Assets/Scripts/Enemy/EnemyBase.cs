@@ -13,6 +13,7 @@ public class EnemyBase : MonoBehaviour {
 	public enum enemystates {idle,move,attack,dead };
 	public enemystates CurrentState;
 	public List<Pathfinding.node> currentpath = null;
+	public GameObject item;
 
 	// Use this for initialization
 	public virtual void Start () {
@@ -147,6 +148,8 @@ public class EnemyBase : MonoBehaviour {
 	public virtual void enemydead()
 	{
 		turnmanager.instance.enemies.Remove(this.gameObject);
+		Instantiate(item, transform.position, Quaternion.identity);
+
 	}
 	public virtual void endturn()
 	{

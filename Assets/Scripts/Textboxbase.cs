@@ -48,7 +48,7 @@ public class Textboxbase : MonoBehaviour {
 	public void starttext(string text)
 	{
 		tbcontent = text;
-		print(text);
+		//print(text);
 		this.gameObject.SetActive(true);
 	}
     public virtual void skiptext()
@@ -62,7 +62,7 @@ public class Textboxbase : MonoBehaviour {
 		}
         else
 		{
-			print ("hello");
+			//print ("hello");
             tbtext.text = "";
             gameObject.SetActive(false);
         }

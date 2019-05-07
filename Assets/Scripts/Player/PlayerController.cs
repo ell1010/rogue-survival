@@ -94,6 +94,7 @@ public class PlayerController : MonoBehaviour
 
 			if (settingsmanager.instance.RightMouseButtonDown() && settingsmanager.instance.Clicked().CompareTag("Enemy"))
 			{
+				print("attack");
 				playerAttack();
 			}
 		}

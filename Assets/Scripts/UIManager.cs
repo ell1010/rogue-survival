@@ -42,7 +42,7 @@ public class UIManager : MonoBehaviour {
         if (set.inventorypressed())
             invpanel.SetActive(!invpanel.activeInHierarchy);
 
-		hpbar.transform.GetComponent<Image>().fillAmount = (pinfo.Health / pinfo.maxhealth);
+		hpbar.GetComponent<Image>().fillAmount = (pinfo.Health / pinfo.maxhealth);
 		xpbar.GetComponent<Image>().fillAmount = (pinfo.experience / (pinfo.PlayerLevel * 12));
 	}
 }

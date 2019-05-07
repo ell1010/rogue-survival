@@ -33,7 +33,7 @@ public class PlayerInventory : MonoBehaviour {
 		int? index = (from pair in search where pair.Item == search select pair.Index).FirstOrDefault();
 		if (index == null)
 		{
-			print("newItem");
+			//print("newItem");
 			invItems.Add(new InvItems { amount = 1, Item = Iitem });
 		}
 		else
@@ -76,9 +76,13 @@ public class PlayerInventory : MonoBehaviour {
 	{
 		for (int i = 0; i < equipped.Length; i++)
 		{
-			pinfo.Attack += equipped[i].itemstats[0];
-			pinfo.Defence += equipped[i].itemstats[2];
-			pinfo.Range += equipped[i].itemstats[1];
+			if (equipped[i] != null)
+			{
+				pinfo.Attack += equipped[i].itemstats[0];
+				pinfo.Defence += equipped[i].itemstats[2];
+				pinfo.Range += equipped[i].itemstats[1];
+				print("calc" + equipped[i].name);
+			}
 		}
 	}
 
@@ -87,9 +91,10 @@ public class PlayerInventory : MonoBehaviour {
 
 	}
 
-	void equip()
+	public void equip(Item e)
 	{
-
+		print("equipped" + e);
+		equipped[(int)e.itemtype] = e;
 	}
 
 	[System.Serializable]

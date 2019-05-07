@@ -11,7 +11,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 939399782afff894892e9523236afaa0, type: 3}
   m_Name: PlayerInfo
   m_EditorClassIdentifier: 
-  PlayerName: ewojfwhpoiqeranogei
+  PlayerName: Simon
   PlayerLevel: 1
   experience: 0
   Health: 20

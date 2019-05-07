@@ -25,7 +25,7 @@ public class InventoryUI : MonoBehaviour {
 	}
     public void UpdateUI(bool added)
     {
-        Debug.Log("UPDATING UI");
+        //Debug.Log("UPDATING UI");
 		if (added)
 			itemAdded();
 		else
@@ -106,6 +106,7 @@ public class InventoryUI : MonoBehaviour {
 			inv.invItems[index].uislot = islots.Count + eindex;
 		}
 		//print((int)inv.invItems[inv.getindex(index)].Item.itemtype);
+		inv.equip(inv.invItems[inv.getindex(islots.Count + eindex)].Item);
 		inv.calcstats();
 		
 	}
