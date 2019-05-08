@@ -69,7 +69,8 @@ public class saveandload : MonoBehaviour {
             JsonUtility.FromJsonOverwrite(objects[1], playerinfo);
 			JsonUtility.FromJsonOverwrite(objects[2], optionvalues);
             savefile.Close();
-			loadinv();
+			if (SceneManager.GetActiveScene().buildIndex == 2)
+				loadinv();
 			print("load");
 		}
 		else

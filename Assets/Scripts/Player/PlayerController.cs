@@ -24,6 +24,7 @@ public class PlayerController : MonoBehaviour
 	bool canAttack;
 	Vector2Int targetpos;
 	public GameObject Linegen;
+	public bool paused;
 
     void Start ()
     {
@@ -55,10 +56,14 @@ public class PlayerController : MonoBehaviour
 		Movement = pinfo.movement;
 		canAttack = true;
 	}
+	public void togglepaused()
+	{
+		paused = !paused;
+	}
 	
 	void Update () 
 	{
-		if (turnmanager.instance.CurrentState == turnmanager.TurnStates.PlayerTurn)
+		if (turnmanager.instance.CurrentState == turnmanager.TurnStates.PlayerTurn && !paused)
 		{
 			if (currentpath != null)
 			{
@@ -72,7 +77,7 @@ public class PlayerController : MonoBehaviour
 				}
 			}
 
-			if (settingsmanager.instance.LeftMouseButton() && settingsmanager.instance.Clicked() == Pathfinding.instance.tilemap.gameObject)
+			if (settingsmanager.instance.LeftMouseButton() && settingsmanager.instance.Clicked() == Pathfinding.instance.tilemap.gameObject && !paused)
 			{
 				//print("test");
 				if (targetpos == Pathfinding.instance.getttileatmouse())
@@ -87,12 +92,12 @@ public class PlayerController : MonoBehaviour
 					Pathfinding.instance.playerpath(targetpos.x , targetpos.y);
 				}
 			}
-			if (settingsmanager.instance.LeftMouseButtonUp())
+			if (settingsmanager.instance.LeftMouseButtonUp() && !paused)
 			{
 				moveplayer();
 			}
 
-			if (settingsmanager.instance.RightMouseButtonDown() && settingsmanager.instance.Clicked().CompareTag("Enemy"))
+			if (settingsmanager.instance.RightMouseButtonDown() && settingsmanager.instance.Clicked().CompareTag("Enemy") && !paused)
 			{
 				print("attack");
 				playerAttack();
