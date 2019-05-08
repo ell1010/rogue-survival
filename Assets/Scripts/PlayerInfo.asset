@@ -16,8 +16,11 @@ MonoBehaviour:
   experience: 0
   Health: 1
   maxhealth: 20
-  Attack: 2
-  Defence: 1
-  Range: 1
+  Attack: 7
+  Defence: 3
+  Range: 2
   movement: 3
-  playerinv: []
+  playerinv:
+  - amount: 1
+    Item: {fileID: 11400000, guid: 32ac2500af048bf4bb087b53526fe475, type: 2}
+    uislot: 36

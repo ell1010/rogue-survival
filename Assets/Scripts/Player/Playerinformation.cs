@@ -15,6 +15,8 @@ public class Playerinformation : ScriptableObject {
 	public int Range;
 	public int movement;
 
+	public List<PlayerInventory.InvItems> playerinv;
+
 
 	public void levelup()
 	{
@@ -32,10 +34,9 @@ public class Playerinformation : ScriptableObject {
 	}
 
 
-    public PlayerInventory[] playerinv;
 
 	[System.Serializable]
-	public class PlayerInventory
+	public class p
 	{
 		public GameObject Item;
 		public int ItemAmount;

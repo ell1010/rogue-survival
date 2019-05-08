@@ -23,7 +23,7 @@ public class EnemySpawner : MonoBehaviour {
 		{
 			if(Random.Range(0,100) < spawnchance)
 			{
-				GameObject e = (GameObject)Instantiate(enemies[Random.Range(0, 2)], new Vector3(node.x, node.y, -1), Quaternion.identity);
+				Instantiate(enemies[Random.Range(0, 2)], new Vector3(node.x, node.y, -1), Quaternion.identity);
 				//print("spawn enemy");
 			}
 		}

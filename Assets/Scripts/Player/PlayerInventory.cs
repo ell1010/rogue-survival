@@ -98,7 +98,7 @@ public class PlayerInventory : MonoBehaviour {
 	}
 
 	[System.Serializable]
-    public class InvItems //: IEquatable<InvItems>
+    public class InvItems
     {
 		public int amount;
 		public Item Item;

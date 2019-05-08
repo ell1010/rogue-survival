@@ -17,6 +17,11 @@ public class InventoryUI : MonoBehaviour {
 		inv = PlayerInventory.instance;
 		inv.onItemChangedCallback += UpdateUI;
 		setupUseItem();
+		if (inv.invItems.Count > 0)
+		{
+			itemloaded();
+			print("load items");
+		}
 	}
 
 	// Update is called once per frame
@@ -33,6 +38,31 @@ public class InventoryUI : MonoBehaviour {
 			//itemDeleted();
 		}
     }
+
+	public void itemloaded()
+	{
+		foreach (PlayerInventory.InvItems item in inv.invItems)
+		{
+			if (item.uislot < islots.Count)
+			{
+				islots[item.uislot].slotIcon.sprite = item.Item.icon;
+				islots[item.uislot].slotIcon.enabled = true;
+				islots[item.uislot].slotAmount.text = item.amount.ToString();
+				islots[item.uislot].occupied = true;
+				islots[item.uislot].deleteSlot.GetComponent<Button>().interactable = true;
+			}
+			else
+			{
+				int index = (int)item.Item.itemtype;
+				eslots[index].slotIcon.sprite = item.Item.icon;
+				eslots[index].slotIcon.enabled = true;
+				eslots[index].slotAmount.text = item.amount.ToString();
+				eslots[index].occupied = true;
+				//eslots[index].deleteSlot.GetComponent<Button>().interactable = true;
+			}
+			inv.calcstats();
+		}
+	}
 
     public void itemAdded()
     {

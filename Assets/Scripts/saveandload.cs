@@ -12,7 +12,7 @@ public class saveandload : MonoBehaviour {
 	public OptionValues optionvalues;
     // Use this for initialization
     void Start () {
-        //Load();
+        Load();
 	}
 	
 	// Update is called once per frame
@@ -22,8 +22,18 @@ public class saveandload : MonoBehaviour {
 
 	public void quittomenu()
 	{
+		saveInv();
 		Save();
 		SceneManager.LoadScene(1);
+	}
+
+	public void saveInv()
+	{
+		playerinfo.playerinv = PlayerInventory.instance.invItems;
+	}
+	public void loadinv()
+	{
+		PlayerInventory.instance.invItems = playerinfo.playerinv;
 	}
 
     public void Save()
@@ -46,7 +56,7 @@ public class saveandload : MonoBehaviour {
 
     public void Load()
     {
-        if (File.Exists(Application .persistentDataPath + "/Saves/Save1.rs"))
+        if (File.Exists(Application.persistentDataPath + "/Saves/Save1.rs"))
         {
             BinaryFormatter bf = new BinaryFormatter();
             FileStream savefile = File.Open(Application.persistentDataPath + "/Saves/Save1.rs", FileMode.Open);
@@ -59,10 +69,13 @@ public class saveandload : MonoBehaviour {
             JsonUtility.FromJsonOverwrite(objects[1], playerinfo);
 			JsonUtility.FromJsonOverwrite(objects[2], optionvalues);
             savefile.Close();
+			loadinv();
+			print("load");
 		}
 		else
 		{
 			Save();
+			print("save");
 		}
     }
 }
