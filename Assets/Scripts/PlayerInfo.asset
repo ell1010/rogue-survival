@@ -14,10 +14,10 @@ MonoBehaviour:
   PlayerName: Simon
   PlayerLevel: 1
   experience: 0
-  Health: 20
+  Health: 1
   maxhealth: 20
   Attack: 2
-  Defence: 0
+  Defence: 1
   Range: 1
   movement: 3
   playerinv: []
