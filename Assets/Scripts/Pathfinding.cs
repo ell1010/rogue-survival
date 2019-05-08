@@ -11,7 +11,7 @@ public class Pathfinding : MonoBehaviour {
 
 	public Tilemap tilemap;
 	public Grid tgrid;
-	node[,] nodegraph;
+	public node[,] nodegraph;
 	GameObject player;
 	Vector3 playerpos;
 	List<node> currentPath = new List<node>();
@@ -107,8 +107,8 @@ public class Pathfinding : MonoBehaviour {
 				nodegraph [x, y].x = x - (Mathf.Abs (startpos.x));
 				nodegraph [x, y].y = y - (Mathf.Abs (startpos.y));
 
-				GameObject newnode = GameObject.Instantiate (gnode, new Vector3 (nodegraph [x, y].x, nodegraph [x, y].y, -1), Quaternion.identity);
-				newnode.name = (nodegraph [x, y].x.ToString () + nodegraph [x, y].y.ToString ());
+				//GameObject newnode = GameObject.Instantiate (gnode, new Vector3 (nodegraph [x, y].x, nodegraph [x, y].y, -1), Quaternion.identity);
+				//newnode.name = (nodegraph [x, y].x.ToString () + nodegraph [x, y].y.ToString ());
 				
 
 			}
@@ -146,7 +146,7 @@ public class Pathfinding : MonoBehaviour {
 			}
 		}
 	}
-	public float costtotile(int sourceX, int sourceY,int targetX, int targetY)
+	public float costtotile(int targetX, int targetY)
 	{
 		float cost = nodegraph[targetX + (Mathf.Abs (tilemap.origin.x)),targetY + (Mathf.Abs (tilemap.origin.y))].movecost(tilemap,new Vector3Int(targetX,targetY,0));
 		return cost;
@@ -230,7 +230,7 @@ public class Pathfinding : MonoBehaviour {
 			{
 				if (!v.occupied || (v.x == playerpos.x && v.y == playerpos.y))
 				{
-					float alt = dist[u] + u.distanceto(v);
+					float alt = dist[u] + costtotile(v.x,v.y);
 					if (alt < dist[v])
 					{
 						dist[v] = alt;
@@ -276,23 +276,28 @@ public class Pathfinding : MonoBehaviour {
 		{
 			//get the name of the tile and returns an int depending on what tile it picked
 			if (tilemap.HasTile(tilepos)) {
-				if (tilemap.GetTile(tilepos).name == "GrassTile") {
-					return (1);
-				} else
-					return (2);
+				if (new[] {"RoadTile", "PathTile" }.Contains(tilemap.GetTile(tilepos).name)) {
+					return 1;
+				}
+				else if (tilemap.GetTile(tilepos).name == "GrassTile")
+				{
+					return 2;
+				}
+				else
+					return 2;
 			} else
-				return (2);
+				return 2;
 		}
 		public bool walkable(Tilemap tilemap , Vector3Int tilepos)
 		{
 			//same as movecost but determines if a tile is walkable
 			if (tilemap.HasTile(tilepos)) {
-				if (tilemap.GetTile(tilepos).name == "GrassTile") {
-					return (true);
+				if (new[] { "GrassTile", "RoadTile", "PathTile" }.Contains(tilemap.GetTile(tilepos).name)) {
+					return true;
 				} else
-					return (false);
+					return false;
 			} else
-				return (false);
+				return false;
 		}
 		public node()
 		{
@@ -303,6 +308,7 @@ public class Pathfinding : MonoBehaviour {
 			//calculates the distance
 			Vector2 dir = new Vector2(x , y) - new Vector2(n.x , n.y);
 			float length = dir.sqrMagnitude;
+
 			//print("distance " + length);
 			//returns the distance as a float
 			return length;

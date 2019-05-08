@@ -67,6 +67,8 @@ public class turnmanager : MonoBehaviour {
 				{
 					//if(enemydostuff != null)
 					//enemydostuff();
+
+					GetComponent<EnemySpawner>().spawnenemy();
 					enemyturn();
 				}
 			break;

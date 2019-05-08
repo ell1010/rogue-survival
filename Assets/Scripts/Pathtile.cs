@@ -6,9 +6,9 @@ using UnityEngine.Tilemaps;
 using UnityEditor;
 #endif
 
-public class Roadtile : Tile {
+public class Pathtile : Tile {
 
-	[SerializeField] private Sprite[] roadsprites;
+	[SerializeField] private Sprite[] pathsprites;
 	[SerializeField] private Sprite preview;
 
 	public new Sprite sprite;
@@ -34,15 +34,27 @@ public class Roadtile : Tile {
 			for (int xd = -1; xd <= 1; xd++)
 			{
 				Vector3Int pos = new Vector3Int(location.x + xd, location.y + yd, location.z);
-				if (HasRoadTile(tilemap, pos))
+				if (IsTileOfType<Roadtile>(tilemap, pos))
 					tilemap.RefreshTile(pos);
 			}
 		base.RefreshTile(location, tilemap);
 	}
-	private bool HasRoadTile(ITilemap tilemap, Vector3Int position)
+	//private bool HasPathTile(ITilemap tilemap, Vector3Int position)
+	//{
+	//	return tilemap.GetTile(position) == this;
+	//}
+
+	public bool IsTileOfType<T>(ITilemap tilemap, Vector3Int position) where T : TileBase
 	{
-		return tilemap.GetTile(position) == this;
+		TileBase targetTile = tilemap.GetTile(position);
+		if(targetTile != null && targetTile is T)
+		{
+			//Debug.Log(targetTile);
+			return true;
+		}
+		return false;
 	}
+
 	public override void GetTileData(Vector3Int position, ITilemap tilemap, ref TileData tileData)
 	{
 		base.GetTileData(position, tilemap, ref tileData);
@@ -54,18 +66,18 @@ public class Roadtile : Tile {
 		//tileData.colliderType = this.collidertype;
 
 		int mask = 0;
-		if (HasRoadTile(tilemap, position + new Vector3Int(0, 1, 0)))
+		if (IsTileOfType<Roadtile>(tilemap, position + new Vector3Int(0, 1, 0)))
 			mask += 1;
-		if (HasRoadTile(tilemap, position + new Vector3Int(1, 0, 0)))
+		if (IsTileOfType<Roadtile>(tilemap, position + new Vector3Int(1, 0, 0)))
 			mask += 2;
-		if (HasRoadTile(tilemap, position + new Vector3Int(0, -1, 0)))
+		if (IsTileOfType<Roadtile>(tilemap, position + new Vector3Int(0, -1, 0)))
 			mask += 4;
-		if (HasRoadTile(tilemap, position + new Vector3Int(-1, 0, 0)))
+		if (IsTileOfType<Roadtile>(tilemap, position + new Vector3Int(-1, 0, 0)))
 			mask += 8;
 		int index = GetIndex((byte)mask);
-		if (index >= 0 && index <= roadsprites.Length)
+		if (index >= 0 && index <= pathsprites.Length)
 		{
-			tileData.sprite = roadsprites[index];
+			tileData.sprite = pathsprites[index];
 			//Debug.Log("sprite index " + index);
 		}
 	}
@@ -73,28 +85,28 @@ public class Roadtile : Tile {
 	{
 		switch (mask)
 		{
-			case 0:
-			case 2: 
-			case 8:
-			case 10: return 2;
-			case 4: return 1;
-			case 5: return 1;
+			case 0: return 0;
 			case 1: return 1;
-			case 11: return 2;
-			case 12: return 1;
-			case 15: return 0;
+			case 2: return 3;
+			case 3: return 5;
+			case 4: return 6;
+			case 5:
+			case 6: return 7;
+			case 7:
+			case 8: return 4;
+			case 9: return 2;
+
 		}
 		return 0;
 	}
-	#if UNITY_EDITOR
-	[MenuItem("Assets/Create/Roadtile")]
-	public static void CreateRoadTile()
+#if UNITY_EDITOR
+	[MenuItem("Assets/Create/Pathtile")]
+	public static void CreatePathTile()
 	{
-		string path = EditorUtility.SaveFilePanelInProject("Save Road Tile", "RoadTile", "Asset", "Save Road Tile", "Assets");
+		string path = EditorUtility.SaveFilePanelInProject("Save Path Tile", "PathTile", "Asset", "Save Path Tile", "Assets");
 		if (path == "")
 			return;
-		AssetDatabase.CreateAsset(ScriptableObject.CreateInstance<Roadtile>(), path);
+		AssetDatabase.CreateAsset(ScriptableObject.CreateInstance<Pathtile>(), path);
 	}
 #endif
 }
-

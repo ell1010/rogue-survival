@@ -102,7 +102,7 @@ public class EnemyBase : MonoBehaviour {
 				yield return null;
 			}
 			moveper = 1;
-			movement -= (int)Pathfinding.instance.costtotile(currentpath[0].x , currentpath[0].y , currentpath[1].x , currentpath[1].y);
+			movement -= (int)Pathfinding.instance.costtotile(currentpath[1].x , currentpath[1].y);
 			transform.position = new Vector3(currentpath[1].x , currentpath[1].y , 0);
 			currentpath.RemoveAt(0);
 			currentpath[0].occupied = true;

@@ -45,7 +45,7 @@ public class PlayerController : MonoBehaviour
 			pinfo.Health = 20;
 			pinfo.maxhealth = 20;
 			pinfo.Attack = 2;
-			pinfo.Defence = 0;
+			pinfo.Defence = 1;
 			pinfo.Range = 1;
 			pinfo.movement = 3;
 		}
@@ -136,7 +136,7 @@ public class PlayerController : MonoBehaviour
 			}
 			moveper = 1;
             
-            Movement -= (int)pf.costtotile(currentpath[0].x,currentpath[0].y,currentpath[1].x,currentpath[1].y);
+            Movement -= (int)pf.costtotile(currentpath[1].x,currentpath[1].y);
 			transform.position = new Vector3(currentpath[1].x , currentpath[1].y , 0);
 			currentpath.RemoveAt (0);
 			currentpath[0].occupied = true;
