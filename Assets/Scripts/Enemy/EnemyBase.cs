@@ -30,18 +30,27 @@ public class EnemyBase : MonoBehaviour {
 	public void takeDamage(int damage)
 	{
 		health -= damage;
-		//print(health);
+		StartCoroutine(damageflash());
 		if (health <= 0)
 		{
 			enemydead();
 		}
 	}
+	IEnumerator damageflash()
+	{
+		SpriteRenderer sp = transform.GetChild(0).GetComponent<SpriteRenderer>();
+	
+		sp.color = Color.black;
+		yield return new WaitForSeconds(0.05f);
+
+		sp.color = Color.white;
+		yield return new WaitForSeconds(0.05f);
+		yield break;
+	}
 	public void startturn()
 	{
-		print("startturn");
 		movement = startmovement;
 		changestate(enemystates.idle);
-		print("endturn");
 	}
 	void changestate(enemystates NewState)
 	{
@@ -122,7 +131,6 @@ public class EnemyBase : MonoBehaviour {
 			
 			yield return new WaitForSeconds(0.02f);
 		}
-        print("got here" + gameObject.name);
 		endturn();
 		yield break;
 	}
@@ -152,7 +160,11 @@ public class EnemyBase : MonoBehaviour {
 	public virtual void enemydead()
 	{
 		turnmanager.instance.enemies.Remove(this.gameObject);
-		Instantiate(item, transform.position, Quaternion.identity);
+		Instantiate(item, transform.GetChild(0).position, Quaternion.identity);
+		Pathfinding.node currentnode = Pathfinding.instance.GetNode(transform.position);
+		currentnode.occupied = false;
+		player.GetComponent<PlayerController>().pinfo.experience += 2;
+		Destroy(this.gameObject);
 
 	}
 	public virtual void endturn()

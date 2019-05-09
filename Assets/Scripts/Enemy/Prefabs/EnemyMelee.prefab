@@ -130,7 +130,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 0}
   health: 20
-  attack: 0
+  attack: 1
   range: 1
   startmovement: 2
   movement: 2

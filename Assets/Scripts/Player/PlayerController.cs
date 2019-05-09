@@ -45,7 +45,7 @@ public class PlayerController : MonoBehaviour
 			pinfo.experience = 0;
 			pinfo.Health = 20;
 			pinfo.maxhealth = 20;
-			pinfo.Attack = 2;
+			pinfo.Attack = 5;
 			pinfo.Defence = 1;
 			pinfo.Range = 1;
 			pinfo.movement = 3;
@@ -99,7 +99,6 @@ public class PlayerController : MonoBehaviour
 
 			if (settingsmanager.instance.RightMouseButtonDown() && settingsmanager.instance.Clicked().CompareTag("Enemy") && !paused)
 			{
-				print("attack");
 				playerAttack();
 			}
 		}
@@ -180,7 +179,6 @@ public class PlayerController : MonoBehaviour
 		if (canAttack && Movement > 0)
 		{
 			Vector2Int clickedtile = Pathfinding.instance.getttileatmouse();
-			print(clickedtile.x + " " + clickedtile.y);
 			float distance = Pathfinding.instance.getTileDistance(clickedtile.x , clickedtile.y);
 			if (distance <= pinfo.Range)
 			{
@@ -228,7 +226,7 @@ public class PlayerController : MonoBehaviour
 	}
     public void playertakedamage(int damage)
     {
-		pinfo.Health = (int)Mathf.Floor((damage / pinfo.Defence) + 1);
+		pinfo.Health -= (int)Mathf.Floor((damage / pinfo.Defence) + 1);
     }
 	void OnTriggerEnter2D(Collider2D col)
 	{

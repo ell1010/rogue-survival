@@ -81,7 +81,6 @@ public class PlayerInventory : MonoBehaviour {
 				pinfo.Attack += equipped[i].itemstats[0];
 				pinfo.Defence += equipped[i].itemstats[2];
 				pinfo.Range += equipped[i].itemstats[1];
-				print("calc" + equipped[i].name);
 			}
 		}
 	}
@@ -93,7 +92,6 @@ public class PlayerInventory : MonoBehaviour {
 
 	public void equip(Item e)
 	{
-		print("equipped" + e);
 		equipped[(int)e.itemtype] = e;
 	}
 

@@ -106,7 +106,6 @@ public class settingsmanager : MonoBehaviour {
 				RaycastHit2D hit = Physics2D.Raycast(ray.origin , ray.direction,10, layermask);
 				if (hit.transform != null)
 				{
-					print("clicked" + hit.transform.gameObject.name);
 					return hit.transform.gameObject;
 				}
 				else

@@ -20,7 +20,6 @@ public class InventoryUI : MonoBehaviour {
 		if (inv.invItems.Count > 0)
 		{
 			itemloaded();
-			print("load items");
 		}
 	}
 
@@ -78,7 +77,7 @@ public class InventoryUI : MonoBehaviour {
 	
 	public void setupUseItem()
 	{
-		for (int i = 0; i < transform.GetChild(0).childCount; i++)
+		for (int i = 0; i < transform.GetChild(0).GetChild(0).childCount; i++)
 		{
 			int index = i;
 			islots[i].slotGO.transform.GetChild(0).GetComponent<Button>().onClick.AddListener(delegate { useitem(index); });
@@ -99,11 +98,9 @@ public class InventoryUI : MonoBehaviour {
 		}
 		//int invindex = inv.invItems.FindIndex(x => x.uislot == slotno);
 		//inv.Remove(inv.invItems[invindex].Item);
-		//print("deleted");
 	}
 	void useitem(int index)
 	{
-		print(index);
 		if(inv.invItems[index].Item.itemtype != Item.type.usable)
 		{
 			equip(index);
@@ -135,7 +132,6 @@ public class InventoryUI : MonoBehaviour {
 			islots[index].occupied = false;
 			inv.invItems[index].uislot = islots.Count + eindex;
 		}
-		//print((int)inv.invItems[inv.getindex(index)].Item.itemtype);
 		inv.equip(inv.invItems[inv.getindex(islots.Count + eindex)].Item);
 		inv.calcstats();
 		

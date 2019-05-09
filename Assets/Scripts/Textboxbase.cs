@@ -21,16 +21,12 @@ public class Textboxbase : MonoBehaviour {
 
 	// Use this for initialization
 	public virtual void Start () {
-		if (string.IsNullOrEmpty(tbcontent))
-		{
-			print("empty string");
-			tbcontent = "This is a text box that has a lot of text to give me time to test different things while the text is typing";
-		}
-        tbtext = this.gameObject.transform.GetChild(0).gameObject.GetComponent<Text>();
-		tbcontent = SplitToLines (tbcontent, maxcharacterlimit);
-		tbcsplit = tbcontent.Split (new [] { '\r', '\n' }, System.StringSplitOptions.RemoveEmptyEntries);
-		StartCoroutine (typewriter (tbcsplit [page]));
     }
+
+	private void OnEnable()
+	{
+		
+	}
 	void startTextBox()
 	{
 
@@ -50,6 +46,15 @@ public class Textboxbase : MonoBehaviour {
 		tbcontent = text;
 		//print(text);
 		this.gameObject.SetActive(true);
+		if (string.IsNullOrEmpty(tbcontent))
+		{
+			print("empty string");
+			tbcontent = "This is a text box that has a lot of text to give me time to test different things while the text is typing";
+		}
+		tbtext = this.gameObject.transform.GetChild(0).gameObject.GetComponent<Text>();
+		tbcontent = SplitToLines(tbcontent, maxcharacterlimit);
+		tbcsplit = tbcontent.Split(new[] { '\r', '\n' }, System.StringSplitOptions.RemoveEmptyEntries);
+		StartCoroutine(typewriter(tbcsplit[page]));
 	}
     public virtual void skiptext()
     {

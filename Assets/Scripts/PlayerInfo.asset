@@ -12,11 +12,11 @@ MonoBehaviour:
   m_Name: PlayerInfo
   m_EditorClassIdentifier: 
   PlayerName: 
-  PlayerLevel: 0
+  PlayerLevel: 1
   experience: 0
   Health: 20
   maxhealth: 20
-  Attack: 2
+  Attack: 5
   Defence: 1
   Range: 1
   movement: 3

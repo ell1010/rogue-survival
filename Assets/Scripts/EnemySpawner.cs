@@ -21,10 +21,13 @@ public class EnemySpawner : MonoBehaviour {
 	{
 		foreach (Pathfinding.node node in Pathfinding.instance.nodegraph)
 		{
-			if(Random.Range(0,100) < spawnchance)
+			if (!node.occupied)
 			{
-				Instantiate(enemies[Random.Range(0, 2)], new Vector3(node.x, node.y, -1), Quaternion.identity);
-				//print("spawn enemy");
+				if (Random.Range(0.0f, 100.0f) < spawnchance)
+				{
+					Instantiate(enemies[Random.Range(0, 2)], new Vector3(node.x, node.y, -1), Quaternion.identity);
+					//print("spawn enemy");
+				}
 			}
 		}
 	}
