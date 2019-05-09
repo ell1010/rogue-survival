@@ -135,7 +135,7 @@ MonoBehaviour:
   startmovement: 2
   movement: 2
   CurrentState: 0
-  item: {fileID: 0}
+  item: {fileID: 1396995749599104, guid: fa06cd4db9267224b922998f203eeddb, type: 2}
 --- !u!212 &212125390421047800
 SpriteRenderer:
   m_ObjectHideFlags: 1

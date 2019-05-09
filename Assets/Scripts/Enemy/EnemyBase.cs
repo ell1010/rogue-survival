@@ -30,7 +30,11 @@ public class EnemyBase : MonoBehaviour {
 	public void takeDamage(int damage)
 	{
 		health -= damage;
-		print(health);
+		//print(health);
+		if (health <= 0)
+		{
+			enemydead();
+		}
 	}
 	public void startturn()
 	{

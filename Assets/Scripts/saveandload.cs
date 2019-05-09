@@ -11,7 +11,7 @@ public class saveandload : MonoBehaviour {
     public Playerinformation playerinfo;
 	public OptionValues optionvalues;
     // Use this for initialization
-    void Start () {
+    void Awake () {
         Load();
 	}
 	
@@ -64,14 +64,13 @@ public class saveandload : MonoBehaviour {
             //JsonUtility.FromJsonOverwrite((string)bf.Deserialize(savefile), objects as List<System.Object>);
             object serializedobject = bf.Deserialize(savefile);
             List<string> objects = serializedobject as List<string>;
-            print(objects.Count);
             JsonUtility.FromJsonOverwrite(objects[0], keybinds);
             JsonUtility.FromJsonOverwrite(objects[1], playerinfo);
 			JsonUtility.FromJsonOverwrite(objects[2], optionvalues);
             savefile.Close();
 			if (SceneManager.GetActiveScene().buildIndex == 2)
 				loadinv();
-			print("load");
+			loadoptions();
 		}
 		else
 		{
@@ -79,4 +78,9 @@ public class saveandload : MonoBehaviour {
 			print("save");
 		}
     }
+
+	public void loadoptions()
+	{
+		Screen.SetResolution(optionvalues.resolution.x, optionvalues.resolution.y, optionvalues.fullscreen);
+	}
 }

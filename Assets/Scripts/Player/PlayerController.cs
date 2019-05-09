@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEditor;
+//using UnityEditor;
 
 public class PlayerController : MonoBehaviour 
 {
@@ -102,6 +102,10 @@ public class PlayerController : MonoBehaviour
 				print("attack");
 				playerAttack();
 			}
+		}
+		if (settingsmanager.instance.pausepressed())
+		{
+			togglepaused();
 		}
 	}
 	public void moveplayer()

@@ -56,9 +56,13 @@ public class OptionsScript : MonoBehaviour {
         {
             ResolutionD.options.Add(new Dropdown.OptionData(res.ToString()));
         }
-
-
-    }
+		FST.isOn = options.fullscreen;
+		// keybinds.keybinds[(int)KeybindActions.select].keyCode.ToString();
+		pauseb.transform.GetChild(0).GetComponent<Text>().text = keybinds.keybinds[(int)KeybindActions.pause].keyCode.ToString();
+		moveb.transform.GetChild(0).GetComponent<Text>().text = keybinds.keybinds[(int)KeybindActions.select].keyCode.ToString();
+		attackb.transform.GetChild(0).GetComponent<Text>().text = keybinds.keybinds[(int)KeybindActions.attack].keyCode.ToString();
+		invb.transform.GetChild(0).GetComponent<Text>().text = keybinds.keybinds[(int)KeybindActions.inventory].keyCode.ToString();
+	}
 
     public void resolutionDropdown()
     {

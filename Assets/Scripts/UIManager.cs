@@ -31,7 +31,6 @@ public class UIManager : MonoBehaviour {
 	public void nameInput(string input)
 	{
 		pinfo.PlayerName = input;
-		print(input);
 		nameinput.SetActive(false);
 	}
 
@@ -43,6 +42,7 @@ public class UIManager : MonoBehaviour {
             invpanel.SetActive(!invpanel.activeInHierarchy);
 
 		hpbar.GetComponent<Image>().fillAmount = (pinfo.Health / pinfo.maxhealth);
-		xpbar.GetComponent<Image>().fillAmount = (pinfo.experience / (pinfo.PlayerLevel * 12));
+		if(pinfo.PlayerLevel != 0)
+			xpbar.GetComponent<Image>().fillAmount = (pinfo.experience / (pinfo.PlayerLevel * 12));
 	}
 }

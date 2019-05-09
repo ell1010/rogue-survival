@@ -20,7 +20,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4913912705142834}
   - component: {fileID: 212205133038792100}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Visual
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -38,7 +38,7 @@ GameObject:
   - component: {fileID: 61062067029198300}
   - component: {fileID: 50526067993047092}
   - component: {fileID: 114408049551750658}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: EnemyMelee
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -135,7 +135,7 @@ MonoBehaviour:
   startmovement: 2
   movement: 2
   CurrentState: 0
-  item: {fileID: 0}
+  item: {fileID: 1396995749599104, guid: fa06cd4db9267224b922998f203eeddb, type: 2}
 --- !u!212 &212205133038792100
 SpriteRenderer:
   m_ObjectHideFlags: 1

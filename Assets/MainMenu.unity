@@ -1757,6 +1757,25 @@ Prefab:
       propertyPath: m_AnchoredPosition.y
       value: -250
       objectReference: {fileID: 0}
+    - target: {fileID: 1250083009366378, guid: fae242e5f98a18f4b9036cf9acc43b09, type: 2}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114559975532960314, guid: fae242e5f98a18f4b9036cf9acc43b09,
+        type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114559975532960314, guid: fae242e5f98a18f4b9036cf9acc43b09,
+        type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_CallState
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114559975532960314, guid: fae242e5f98a18f4b9036cf9acc43b09,
+        type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_CallState
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: fae242e5f98a18f4b9036cf9acc43b09, type: 2}
   m_IsPrefabParent: 0
@@ -3104,7 +3123,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   keybinds: {fileID: 11400000, guid: 41233ae35a8359a46b549c47ef2e250b, type: 2}
   playerinfo: {fileID: 11400000, guid: 26acd821221feb3439c2512821571060, type: 2}
-  optionvalues: {fileID: 0}
+  optionvalues: {fileID: 11400000, guid: 75fdbc711d6601b4eb654236f6da50f5, type: 2}
 --- !u!4 &1835224470
 Transform:
   m_ObjectHideFlags: 0

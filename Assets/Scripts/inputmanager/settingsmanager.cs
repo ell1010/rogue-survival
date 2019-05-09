@@ -23,7 +23,6 @@ public class settingsmanager : MonoBehaviour {
 	public PointerEventData pointerevent;
 	public EventSystem eventsystem;
 	int layermask = 1 << 8;
-	PlayerController pc;
 
 	// Use this for initialization
 	void Awake () {
@@ -37,7 +36,6 @@ public class settingsmanager : MonoBehaviour {
 		//layermask = ~layermask;
 		GraphicsRaycaster = Canvas.GetComponent<GraphicRaycaster> ();
 		//print(keybinds.keybinds[(int)KeybindActions.jump].keyCode);
-		pc = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
 	}
 
 	public bool JumpPressed()
@@ -76,7 +74,6 @@ public class settingsmanager : MonoBehaviour {
 	}
     public bool pausepressed()
     {
-		pc.paused = !pc.paused;
         return Input.GetKeyDown(keybinds.keybinds[(int)KeybindActions.pause].keyCode);
     }
 
